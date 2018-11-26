@@ -15,10 +15,11 @@
     <TableView style="-fx-font-size: 15" prefWidth="1300" prefHeight="300" AnchorPane.leftAnchor="40" AnchorPane.topAnchor="60">
 
     </TableView>
-    <TextField text="Comision" style="-fx-font-size: 20" AnchorPane.leftAnchor="40" AnchorPane.topAnchor="400"/>
-    <TextField text="Pago" style="-fx-font-size: 20" AnchorPane.leftAnchor="40" AnchorPane.topAnchor="450"/>
-    <TextField text="Numero de Referencia" style="-fx-font-size: 20" AnchorPane.leftAnchor="40" AnchorPane.topAnchor="500"/>
-    <TextField text="Telefono" style="-fx-font-size: 20" AnchorPane.leftAnchor="40" AnchorPane.topAnchor="550"/>
+    <TextField fx:id="textComision" text="Comision" style="-fx-font-size: 20" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="400"/>
+    <TextField fx:id="textPago" text="Pago" style="-fx-font-size: 20" AnchorPane.leftAnchor="40" AnchorPane.topAnchor="400"/>
+    <TextField fx:id="textNumeReferencia" text="Numero de Referencia" style="-fx-font-size: 20" AnchorPane.leftAnchor="40" AnchorPane.topAnchor="450"/>
+    <TextField fx:id="textTelefono" text="Telefono" style="-fx-font-size: 20" AnchorPane.leftAnchor="40" AnchorPane.topAnchor="500"/>
+    <TextField fx:id="textConfTelefono" text="Confirmar Telefono" style="-fx-font-size: 20" AnchorPane.leftAnchor="40" AnchorPane.topAnchor="550"/>
 
     <Button fx:id="btnRegresar" prefHeight="30" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0">         <!--- Boton Pago de Servicio domestico -->
         <graphic>

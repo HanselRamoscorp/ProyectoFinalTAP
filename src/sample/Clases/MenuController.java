@@ -43,8 +43,8 @@ public class MenuController implements Initializable {
                     if(event.getSource().equals(btnPagos))
                         direccion="Pagos";
             try {
-                Stage invoiceStage=new Stage();
-                invoiceStage.setTitle("Servicio");
+                Stage servicioStage=new Stage();
+                servicioStage.setTitle("Servicio");
                 Parent root= null;
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/FXML/Servicio.fxml"));
 
@@ -54,9 +54,9 @@ public class MenuController implements Initializable {
                 root=loader.load();
                 Scene scene=new Scene(root);
                 scene.getStylesheets().add("/sample/Complements/DarkTheme2.css");
-                invoiceStage.setScene(scene);
-                invoiceStage.setMaximized(true);
-                invoiceStage.show();
+                servicioStage.setScene(scene);
+                servicioStage.setMaximized(true);
+                servicioStage.show();
                 ((Stage)(((Button) event.getSource()).getScene().getWindow())).hide();
             }catch (IOException e ){
                 e.printStackTrace();

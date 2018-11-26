@@ -7,24 +7,13 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/8.0.172-ea"
             fx:controller="sample.Clases.Controller">
-    <Label styleClass="h1" text="Nombre:" AnchorPane.leftAnchor="700" AnchorPane.topAnchor="300">
-        <font>
-            <Font size="20.0" />
-        </font>
-    </Label>
-
-    <Label text="Contraseña:" AnchorPane.leftAnchor="700" AnchorPane.topAnchor="350">
-        <font>
-            <Font size="20.0" />
-        </font>
-    </Label>
+    <Label styleClass="h1" text="Nombre de usuario:" style="-fx-font-size: 20" AnchorPane.leftAnchor="650" AnchorPane.topAnchor="300"/>
+    <Label text="Contraseña:" style="-fx-font-size: 20" AnchorPane.leftAnchor="650" AnchorPane.topAnchor="350"/>
+    <Label text="Contraseña incorrecta" style="-fx-font-size: 15" textFill="brown" fx:id="lblContIncorrecta" AnchorPane.leftAnchor="855" AnchorPane.topAnchor="375"/>
 
     <TextField fx:id="textNombre" text="admin" AnchorPane.leftAnchor="850" AnchorPane.topAnchor="300"/>
     <PasswordField fx:id="textContrasena" text="1234" AnchorPane.leftAnchor="850" AnchorPane.topAnchor="350"/>
 
-    <Button fx:id="btnInicSesion" text="Iniciar sesion" AnchorPane.leftAnchor="750" AnchorPane.topAnchor="400">
-        <font>
-            <Font size="20"/>
-        </font>
-    </Button>
+    <Button fx:id="btnInicSesion" style="-fx-font-size: 20" text="Iniciar sesion" AnchorPane.leftAnchor="860" AnchorPane.topAnchor="400"/>
+    <Button fx:id="btnRegistrarse" style="-fx-font-size: 20" text="Registrarse" AnchorPane.leftAnchor="700" AnchorPane.topAnchor="400"/>
 </AnchorPane>
