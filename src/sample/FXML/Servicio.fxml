@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.shape.Box?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefHeight="400.0" prefWidth="600.0">
+    <ComboBox fx:id="cmbTipoServicios" style="-fx-font-size: 20" prefWidth="1300" prefHeight="15" AnchorPane.leftAnchor="40" AnchorPane.topAnchor="10"/>
+    <TableView style="-fx-font-size: 15" prefWidth="1300" prefHeight="300" AnchorPane.leftAnchor="40" AnchorPane.topAnchor="60">
+
+    </TableView>
+    <TextField text="Comision" style="-fx-font-size: 20" AnchorPane.leftAnchor="40" AnchorPane.topAnchor="400"/>
+    <TextField text="Pago" style="-fx-font-size: 20" AnchorPane.leftAnchor="40" AnchorPane.topAnchor="450"/>
+    <TextField text="Numero de Referencia" style="-fx-font-size: 20" AnchorPane.leftAnchor="40" AnchorPane.topAnchor="500"/>
+    <TextField text="Telefono" style="-fx-font-size: 20" AnchorPane.leftAnchor="40" AnchorPane.topAnchor="550"/>
+
+    <Button fx:id="btnRegresar" prefHeight="30" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0">         <!--- Boton Pago de Servicio domestico -->
+        <graphic>
+            <MaterialIconView glyphName="KEYBOARD_ARROW_LEFT" glyphSize="15" fill="azure"/>
+        </graphic>
+    </Button>
+</AnchorPane>

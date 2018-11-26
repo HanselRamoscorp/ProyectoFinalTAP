@@ -1,0 +1,19 @@
+<component name="libraryTable">
+  <library name="io-7.1.4-javadoc">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../../../../../Netbeans/Librerias/Mis/PDF/io-7.1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../Netbeans/Librerias/Mis/PDF/junit-4.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../Netbeans/Librerias/Mis/PDF/kernel-7.1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../Netbeans/Librerias/Mis/PDF/layout-7.1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../Netbeans/Librerias/Mis/PDF/log4j-core-2.11.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../Netbeans/Librerias/Mis/PDF/pdftest-7.1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../Netbeans/Librerias/Mis/PDF/slf4j-api-1.7.25.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../Netbeans/Librerias/Mis/PDF/slf4j-simple-1.7.25.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../../../../../../Netbeans/Librerias/Mis/PDF/io-7.1.4-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../Netbeans/Librerias/Mis/PDF/pdftest-7.1.4-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>
