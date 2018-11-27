@@ -6,7 +6,7 @@
 <?import javafx.scene.control.PasswordField?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/8.0.172-ea"
-            fx:controller="sample.Clases.Controller">
+            fx:controller="sample.Controllers.Controller">
     <Label styleClass="h1" text="Nombre de usuario:" style="-fx-font-size: 20" AnchorPane.leftAnchor="650" AnchorPane.topAnchor="300"/>
     <Label text="Contraseña:" style="-fx-font-size: 20" AnchorPane.leftAnchor="650" AnchorPane.topAnchor="350"/>
     <Label text="Contraseña incorrecta" style="-fx-font-size: 15" textFill="brown" fx:id="lblContIncorrecta" AnchorPane.leftAnchor="855" AnchorPane.topAnchor="375"/>

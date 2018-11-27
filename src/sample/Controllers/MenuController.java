@@ -1,4 +1,4 @@
-package sample.Clases;
+package sample.Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 public class MenuController implements Initializable {
     @FXML Button btnCerrarSesion, btnServHogar, btnRecargas, btnPagos;
     String direccion;
+    Controller controller=new Controller();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         btnCerrarSesion.setOnAction(event -> {
@@ -25,9 +26,7 @@ public class MenuController implements Initializable {
         });
 
         btnServHogar.setOnAction(evt);
-
         btnRecargas.setOnAction(evt);
-
         btnPagos.setOnAction(evt);
     }
 
@@ -42,25 +41,13 @@ public class MenuController implements Initializable {
                 else
                     if(event.getSource().equals(btnPagos))
                         direccion="Pagos";
-            try {
-                Stage servicioStage=new Stage();
-                servicioStage.setTitle("Servicio");
-                Parent root= null;
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/FXML/Servicio.fxml"));
+            Stage servicioStage=new Stage();
+            servicioStage.setTitle("Servicio");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/FXML/Servicio.fxml"));
 
-                ServicioController servicioController = new ServicioController();
-                servicioController.setdestino(direccion);
-                loader.setController(servicioController);
-                root=loader.load();
-                Scene scene=new Scene(root);
-                scene.getStylesheets().add("/sample/Complements/DarkTheme2.css");
-                servicioStage.setScene(scene);
-                servicioStage.setMaximized(true);
-                servicioStage.show();
-                ((Stage)(((Button) event.getSource()).getScene().getWindow())).hide();
-            }catch (IOException e ){
-                e.printStackTrace();
-            }
+            ServicioController servicioController = new ServicioController();
+            servicioController.setdestino(direccion);
+            controller.cargar(loader, servicioController, event);
         }
     };
 }

@@ -1,4 +1,4 @@
-package sample.Clases;
+package sample.Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -29,23 +29,12 @@ public class Controller implements Initializable {
         });
         lblContIncorrecta.setVisible(false);
         btnRegistrarse.setOnAction(event1 -> {
-            try {
-                userStage.setTitle("Registrarse");
-                Parent root= null;
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/FXML/RegiUsuario.fxml"));
+            userStage.setTitle("Registrarse");
+            Parent root= null;
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/FXML/RegiUsuario.fxml"));
 
-                RegiUsuarioController regiUsuarioController = new RegiUsuarioController();
-                loader.setController(regiUsuarioController);
-                root=loader.load();
-                Scene scene=new Scene(root);
-                scene.getStylesheets().add("/sample/Complements/DarkTheme2.css");
-                userStage.setScene(scene);
-                userStage.setMaximized(true);
-                userStage.show();
-                ((Stage)(((Button) event1.getSource()).getScene().getWindow())).hide();
-            }catch (IOException e ){
-                e.printStackTrace();
-            }
+            RegiUsuarioController regiUsuarioController = new RegiUsuarioController();
+            cargar(loader, regiUsuarioController, event1);
         });
     }
 
@@ -65,13 +54,17 @@ public class Controller implements Initializable {
     }
 
     public void mostMenu(ActionEvent event){
-        try {
             menuStage.setTitle("Menu");
-            Parent root= null;
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/FXML/Menu.fxml"));
 
             MenuController menuController = new MenuController();
-            loader.setController(menuController);
+            cargar(loader, menuController, event);
+    }
+
+    public void cargar(FXMLLoader loader, Object controller, ActionEvent event) {
+        try {
+            Parent root= null;
+            loader.setController(controller);
             root=loader.load();
             Scene scene=new Scene(root);
             scene.getStylesheets().add("/sample/Complements/DarkTheme2.css");
@@ -79,7 +72,7 @@ public class Controller implements Initializable {
             menuStage.setMaximized(true);
             menuStage.show();
             ((Stage)(((Button) event.getSource()).getScene().getWindow())).hide();
-        }catch (IOException e ){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
