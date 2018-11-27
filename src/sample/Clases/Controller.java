@@ -7,10 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,12 +17,35 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
     @FXML TextField textNombre;
     @FXML PasswordField textContrasena;
-    @FXML Button btnInicSesion;
+    @FXML Button btnInicSesion, btnRegistrarse;
+    @FXML Label lblContIncorrecta;
     Stage menuStage=new Stage();
+    Stage userStage=new Stage();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         btnInicSesion.setOnAction(event -> {
+            lblContIncorrecta.setVisible(false);
             valiUsuario(event);
+        });
+        lblContIncorrecta.setVisible(false);
+        btnRegistrarse.setOnAction(event1 -> {
+            try {
+                userStage.setTitle("Registrarse");
+                Parent root= null;
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/FXML/RegiUsuario.fxml"));
+
+                RegiUsuarioController regiUsuarioController = new RegiUsuarioController();
+                loader.setController(regiUsuarioController);
+                root=loader.load();
+                Scene scene=new Scene(root);
+                scene.getStylesheets().add("/sample/Complements/DarkTheme2.css");
+                userStage.setScene(scene);
+                userStage.setMaximized(true);
+                userStage.show();
+                ((Stage)(((Button) event1.getSource()).getScene().getWindow())).hide();
+            }catch (IOException e ){
+                e.printStackTrace();
+            }
         });
     }
 
@@ -39,12 +59,9 @@ public class Controller implements Initializable {
     public void valiUsuario(ActionEvent event){
         if("admin".equals(textNombre.getText()) && "1234".equals(textContrasena.getText()))
             mostMenu(event);
-        else{
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Contraseña incorrecta");
-            alert.setContentText("Nombre de usuario o contraseña incorrecta");
-            alert.show();
-        }
+        else
+            lblContIncorrecta.setVisible(true);
+
     }
 
     public void mostMenu(ActionEvent event){

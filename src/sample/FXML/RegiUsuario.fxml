@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            prefHeight="400.0" prefWidth="600.0">
+    <Label text="Nombre de usuario:" style="-fx-font-size: 20" AnchorPane.leftAnchor="400" AnchorPane.topAnchor="250"/>
+    <Label text="Contraseña:" style="-fx-font-size: 20" AnchorPane.leftAnchor="400" AnchorPane.topAnchor="300"/>
+    <Label text="Confirmar contraseña:" style="-fx-font-size: 20" AnchorPane.leftAnchor="400" AnchorPane.topAnchor="350"/>
+    <TextField AnchorPane.leftAnchor="650" style="-fx-font-size: 20" AnchorPane.topAnchor="250"/>
+    <PasswordField AnchorPane.leftAnchor="650" style="-fx-font-size: 20" AnchorPane.topAnchor="300"/>
+    <PasswordField AnchorPane.leftAnchor="650" style="-fx-font-size: 20" AnchorPane.topAnchor="350"/>
+</AnchorPane>
