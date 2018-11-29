@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 import sample.Complements.MySQL;
 import sample.Modelos.Company;
 import sample.Modelos.PlanHS;
+import sample.Modelos.TablaHomeService;
 import sample.Modelos.TypeHomeService;
 
 public class HomeServiceDAO {
@@ -102,6 +103,32 @@ public class HomeServiceDAO {
             System.out.println("Error al recuperar información...");
         }
         return e;
+    }
+
+    public ObservableList<TablaHomeService> fetch2(int id_type) {
+        ObservableList<TablaHomeService> HomeService = FXCollections.observableArrayList();
+        try {
+            String query = "select c.name, H2.quantity " +
+                    "from homeservice h inner join company c on h.id_company = c.id_company" +
+                    "                   inner join planHS H2 on h.id_planHS = H2.id_planHS " +
+                    "where h.id_TypeHS="+id_type;
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            sample.Modelos.TablaHomeService p = null;
+            while(rs.next()) {
+                p = new sample.Modelos.TablaHomeService(
+                        rs.getString("name"),
+                        rs.getInt("quantity")
+                );
+                HomeService.add(p);
+            }
+            rs.close();
+            st.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información...");
+        }
+        return HomeService;
     }
 /*
     public Boolean delete(int trans_id) {

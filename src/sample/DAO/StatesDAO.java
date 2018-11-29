@@ -75,13 +75,15 @@ public class StatesDAO {
         ResultSet rs = null;
         sample.Modelos.States e = null;
         try {
-            String query = "SELECT * FROM transaction where id = " + id_states;
+            String query = "SELECT * FROM state where id_state = " + id_states;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
-            e = new sample.Modelos.States(
-                    rs.getInt("id_state"),
-                    rs.getString("state")
-            );
+            if (rs.first()){
+                e = new sample.Modelos.States(
+                        rs.getInt("id_state"),
+                        rs.getString("state")
+                );
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");

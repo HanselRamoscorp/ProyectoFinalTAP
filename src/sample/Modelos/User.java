@@ -2,14 +2,16 @@ package sample.Modelos;
 
 public class User {
     int id_user;
-    String firstname, lastname, password;
+    String user_name, password;
     Store id_store;
     TypeUser id_typeuser;
 
-    public User(int id_user, String firstname, String lastname, String password, Store id_store, TypeUser id_typeuser) {
+    public User() {
+    }
+
+    public User(int id_user, String user_name, String password, Store id_store, TypeUser id_typeuser) {
         this.id_user = id_user;
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.user_name = user_name;
         this.password = password;
         this.id_store = id_store;
         this.id_typeuser = id_typeuser;
@@ -23,20 +25,12 @@ public class User {
         this.id_user = id_user;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
     public String getPassword() {

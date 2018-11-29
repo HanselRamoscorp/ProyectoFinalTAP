@@ -71,17 +71,19 @@ public class TypeCompanyDAO {
         return TypeCompany;
     }
 
-    public sample.Modelos.TypeCompany fetch(String trans_id) {
+    public sample.Modelos.TypeCompany fetch(int trans_id) {
         ResultSet rs = null;
         sample.Modelos.TypeCompany e = null;
         try {
-            String query = "SELECT * FROM transaction where id = " + trans_id;
+            String query = "SELECT * FROM typecompany where id_typecompany = " + trans_id;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
-            e = new sample.Modelos.TypeCompany(
-                    rs.getInt("id_typecompany"),
-                    rs.getString("typecompany")
-            );
+            if (rs.first()){
+                e = new sample.Modelos.TypeCompany(
+                        rs.getInt("id_typecompany"),
+                        rs.getString("typecompany")
+                );
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");

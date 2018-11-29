@@ -6,6 +6,9 @@ public class HomeService {
     Company id_company;
     PlanHS id_planHS;
 
+    public HomeService() {
+    }
+
     public HomeService(int id_HomeService, TypeHomeService id_TypeHS, Company id_company, PlanHS id_planHS) {
         this.id_HomeService = id_HomeService;
         this.id_TypeHS = id_TypeHS;

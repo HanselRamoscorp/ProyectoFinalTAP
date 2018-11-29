@@ -14,6 +14,7 @@ public class CompanyDAO {
 
     Connection conn;
     CommissionDAO commissionDAO=new CommissionDAO(MySQL.getConnection());
+    TypeCompanyDAO typeCompanyDAO=new TypeCompanyDAO(MySQL.getConnection());
 
     private static ObservableList<sample.Modelos.Company> data = FXCollections.observableArrayList();
 
@@ -27,7 +28,7 @@ public class CompanyDAO {
     public List<sample.Modelos.Company> findAll() {
         List<sample.Modelos.Company> Company = new ArrayList<sample.Modelos.Company>();
         try {
-            String query = "SELECT * FROM transaction";
+            String query = "SELECT * FROM company where id_typecompany=1";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             sample.Modelos.Company p = null;
@@ -35,7 +36,8 @@ public class CompanyDAO {
                 p = new sample.Modelos.Company(
                         rs.getInt("id_company"),
                         rs.getString("name"),
-                        commissionDAO.fetch(rs.getInt("id_commission"))
+                        commissionDAO.fetch(rs.getInt("id_commission")),
+                        typeCompanyDAO.fetch(rs.getInt("id_typecompany"))
                 );
                 Company.add(p);
             }
@@ -49,11 +51,10 @@ public class CompanyDAO {
         return Company;
     }
 
-
-    public ObservableList<sample.Modelos.Company> fetchAll() {
+    public ObservableList<sample.Modelos.Company> fetchAll(int id_typecompany) {
         ObservableList<sample.Modelos.Company> Company = FXCollections.observableArrayList();
         try {
-            String query = "SELECT * FROM transaction";
+            String query = "SELECT * FROM company where id_typecompany = " + id_typecompany;
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             sample.Modelos.Company p = null;
@@ -61,7 +62,8 @@ public class CompanyDAO {
                 p = new sample.Modelos.Company(
                         rs.getInt("id_company"),
                         rs.getString("name"),
-                        commissionDAO.fetch(rs.getInt("id_commission"))
+                        commissionDAO.fetch(rs.getInt("id_commission")),
+                        typeCompanyDAO.fetch(rs.getInt("id_typecompany"))
                 );
                 Company.add(p);
             }
@@ -79,14 +81,17 @@ public class CompanyDAO {
         ResultSet rs = null;
         sample.Modelos.Company e = null;
         try {
-            String query = "SELECT * FROM transaction where id = " + id_company;
+            String query = "SELECT * FROM company where id_company = " + id_company;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
-            e = new sample.Modelos.Company(
-                    rs.getInt("id_company"),
-                    rs.getString("name"),
-                    commissionDAO.fetch(rs.getInt("id_commission"))
-            );
+            if (rs.first()){
+                e = new sample.Modelos.Company(
+                        rs.getInt("id_company"),
+                        rs.getString("name"),
+                        commissionDAO.fetch(rs.getInt("id_commission")),
+                        typeCompanyDAO.fetch(rs.getInt("id_typecompany"))
+                );
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");

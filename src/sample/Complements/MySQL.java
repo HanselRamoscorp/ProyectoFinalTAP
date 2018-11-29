@@ -8,9 +8,9 @@ import java.util.logging.Logger;
 public class MySQL {
     private static Connection conn = null;
     private static String hostname   = "localhost";
-    private static String dbname = "telmex";
-    private static String dbuser = "telmex";
-    private static String dbpass = "TopicosProgra";
+    private static String dbname = "proyectofinalbd";
+    private static String dbuser = "root";
+    private static String dbpass = "pegaso";
 
 
     public static void Connect() {

@@ -35,8 +35,7 @@ public class UserDAO {
             while(rs.next()) {
                 p = new sample.Modelos.User(
                         rs.getInt("id_user"),
-                        rs.getString("firstname"),
-                        rs.getString("lastname"),
+                        rs.getString("user_name"),
                         rs.getString("password"),
                         storeDAO.fetch(rs.getInt("id_store")),
                         typeUserDAO.fetch(rs.getInt("id_typeuser"))
@@ -64,8 +63,7 @@ public class UserDAO {
             while(rs.next()) {
                 p = new sample.Modelos.User(
                         rs.getInt("id_user"),
-                        rs.getString("firstname"),
-                        rs.getString("lastname"),
+                        rs.getString("user_name"),
                         rs.getString("password"),
                         storeDAO.fetch(rs.getInt("id_store")),
                         typeUserDAO.fetch(rs.getInt("id_typeuser"))
@@ -86,20 +84,46 @@ public class UserDAO {
         ResultSet rs = null;
         sample.Modelos.User e = null;
         try {
-            String query = "SELECT * FROM transaction where id = " + trans_id;
+            String query = "SELECT * FROM user where id = " + trans_id;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
-            e = new sample.Modelos.User(
-                    rs.getInt("id_user"),
-                    rs.getString("firstname"),
-                    rs.getString("lastname"),
-                    rs.getString("password"),
-                    storeDAO.fetch(rs.getInt("id_store")),
-                    typeUserDAO.fetch(rs.getInt("id_typeuser"))
-            );
+            if(rs.first()){
+                e = new sample.Modelos.User(
+                        rs.getInt("id_user"),
+                        rs.getString("user_name"),
+                        rs.getString("password"),
+                        storeDAO.fetch(rs.getInt("id_store")),
+                        typeUserDAO.fetch(rs.getInt("id_typeuser"))
+                );
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");
+        }
+        return e;
+    }
+
+    public sample.Modelos.User valide(String firstname, String password) {
+        ResultSet rs = null;
+        sample.Modelos.User e = null;
+        try {
+            String query = "SELECT * FROM user " +
+                    "where user_name = '" + firstname + "'" +
+                    "and password = '"+password+"'";
+            Statement st = conn.createStatement();
+            rs = st.executeQuery(query);
+            if(rs.first()){
+                e = new sample.Modelos.User(
+                        rs.getInt("id_user"),
+                        rs.getString("user_name"),
+                        rs.getString("password"),
+                        storeDAO.fetch(rs.getInt("id_store")),
+                        typeUserDAO.fetch(rs.getInt("id_typeuser"))
+                );
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información..."+ex.getMessage());
         }
         return e;
     }

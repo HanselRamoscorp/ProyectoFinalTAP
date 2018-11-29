@@ -25,7 +25,7 @@ public class TypeHomeServiceDAO {
     public List<sample.Modelos.TypeHomeService> findAll() {
         List<sample.Modelos.TypeHomeService> TypeHomeService = new ArrayList<sample.Modelos.TypeHomeService>();
         try {
-            String query = "SELECT * FROM transaction";
+            String query = "SELECT * FROM typehomeservice";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             sample.Modelos.TypeHomeService p = null;
@@ -38,7 +38,6 @@ public class TypeHomeServiceDAO {
             }
             rs.close();
             st.close();
-
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");
@@ -75,7 +74,7 @@ public class TypeHomeServiceDAO {
         ResultSet rs = null;
         sample.Modelos.TypeHomeService e = null;
         try {
-            String query = "SELECT * FROM transaction where id = " + trans_id;
+            String query = "SELECT * FROM typehomeservice where id = " + trans_id;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
             e = new sample.Modelos.TypeHomeService(

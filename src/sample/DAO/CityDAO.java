@@ -75,13 +75,15 @@ public class CityDAO {
         ResultSet rs = null;
         sample.Modelos.City e = null;
         try {
-            String query = "SELECT * FROM transaction where id = " + id_city;
+            String query = "SELECT * FROM city where id_city = " + id_city;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
-            e = new sample.Modelos.City(
-                    rs.getInt("id_city"),
-                    rs.getString("city")
-            );
+            if(rs.first()){
+                e = new sample.Modelos.City(
+                        rs.getInt("id_city"),
+                        rs.getString("city")
+                );
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");

@@ -88,18 +88,20 @@ public class StoreDAO {
         ResultSet rs = null;
         sample.Modelos.Store e = null;
         try {
-            String query = "SELECT * FROM transaction where id = " + trans_id;
+            String query = "SELECT * FROM store where id_store = " + trans_id;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
-            e = new sample.Modelos.Store(
-                    rs.getInt("id_store"),
-                    rs.getString("name"),
-                    rs.getString("street"),
-                    rs.getString("colony"),
-                    rs.getString("numAddress"),
-                    cityDAO.fetch(rs.getInt("id_city")),
-                    statesDAO.fetch(rs.getInt("id_state"))
-            );
+            if(rs.first()){
+                e = new sample.Modelos.Store(
+                        rs.getInt("id_store"),
+                        rs.getString("name"),
+                        rs.getString("street"),
+                        rs.getString("colony"),
+                        rs.getString("numAddress"),
+                        cityDAO.fetch(rs.getInt("id_city")),
+                        statesDAO.fetch(rs.getInt("id_state"))
+                );
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");

@@ -75,13 +75,15 @@ public class CommissionDAO {
         ResultSet rs = null;
         sample.Modelos.Commission e = null;
         try {
-            String query = "SELECT * FROM transaction where id = " + id_commission;
+            String query = "SELECT * FROM commission where id_commission = " + id_commission;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
-            e = new sample.Modelos.Commission(
-                    rs.getInt("id_commission"),
-                    rs.getString("percentage")
-            );
+            if (rs.first()){
+                e = new sample.Modelos.Commission(
+                        rs.getInt("id_commission"),
+                        rs.getString("percentage")
+                );
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");

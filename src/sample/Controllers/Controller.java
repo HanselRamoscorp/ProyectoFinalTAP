@@ -9,6 +9,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import sample.Complements.MySQL;
+import sample.DAO.UserDAO;
+import sample.Modelos.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,6 +24,9 @@ public class Controller implements Initializable {
     @FXML Label lblContIncorrecta;
     Stage menuStage=new Stage();
     Stage userStage=new Stage();
+
+    UserDAO userDAO=new UserDAO(MySQL.getConnection());
+    User user=new User();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         btnInicSesion.setOnAction(event -> {
@@ -46,11 +52,18 @@ public class Controller implements Initializable {
     };
 
     public void valiUsuario(ActionEvent event){
-        if("admin".equals(textNombre.getText()) && "1234".equals(textContrasena.getText()))
+        if(existeUsuario())
             mostMenu(event);
         else
             lblContIncorrecta.setVisible(true);
+    }
 
+    public boolean existeUsuario(){
+        user=userDAO.valide(textNombre.getText(), textContrasena.getText());
+        boolean result=true;
+        if(user == null)
+            result=false;
+        return result;
     }
 
     public void mostMenu(ActionEvent event){

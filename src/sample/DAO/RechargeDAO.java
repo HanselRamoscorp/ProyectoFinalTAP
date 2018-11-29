@@ -35,7 +35,7 @@ public class RechargeDAO {
                 p = new sample.Modelos.Recharge(
                         rs.getInt("id_recharge"),
                         rs.getString("phonenumber"),
-                        phoneplanDAO.fetch("id_phoneplan")
+                        phoneplanDAO.fetch(rs.getInt("id_phoneplan"))
                 );
                 Recharge.add(p);
             }
@@ -61,7 +61,7 @@ public class RechargeDAO {
                 p = new sample.Modelos.Recharge(
                         rs.getInt("id_recharge"),
                         rs.getString("phonenumber"),
-                        phoneplanDAO.fetch("id_phoneplan")
+                        phoneplanDAO.fetch(rs.getInt("id_phoneplan"))
                 );
                 Recharge.add(p);
             }
@@ -85,7 +85,7 @@ public class RechargeDAO {
             e = new sample.Modelos.Recharge(
                     rs.getInt("id_recharge"),
                     rs.getString("phonenumber"),
-                    phoneplanDAO.fetch("id_phoneplan")
+                    phoneplanDAO.fetch(rs.getInt("id_phoneplan"))
             );
         } catch (SQLException ex) {
             ex.printStackTrace();

@@ -33,7 +33,7 @@ public class PhoneplanDAO {
             sample.Modelos.Phoneplan p = null;
             while(rs.next()) {
                 p = new sample.Modelos.Phoneplan(
-                        rs.getInt("id_phoneplan"),
+                        rs.getInt("id_phoneplane"),
                         rs.getInt("quantity"),
                         companyDAO.fetch(rs.getInt("id_company"))
                 );
@@ -50,16 +50,16 @@ public class PhoneplanDAO {
     }
 
 
-    public ObservableList<sample.Modelos.Phoneplan> fetchAll() {
+    public ObservableList<sample.Modelos.Phoneplan> fetchPlanCompany(int id_company) {
         ObservableList<sample.Modelos.Phoneplan> Phoneplan = FXCollections.observableArrayList();
         try {
-            String query = "SELECT * FROM transaction";
+            String query = "SELECT * FROM phoneplan where id_company="+id_company;
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             sample.Modelos.Phoneplan p = null;
             while(rs.next()) {
                 p = new sample.Modelos.Phoneplan(
-                        rs.getInt("id_phoneplan"),
+                        rs.getInt("id_phoneplane"),
                         rs.getInt("quantity"),
                         companyDAO.fetch(rs.getInt("id_company"))
                 );
@@ -67,7 +67,6 @@ public class PhoneplanDAO {
             }
             rs.close();
             st.close();
-
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");
@@ -75,18 +74,20 @@ public class PhoneplanDAO {
         return Phoneplan;
     }
 
-    public sample.Modelos.Phoneplan fetch(String trans_id) {
+    public sample.Modelos.Phoneplan fetch(int id_phoneplan) {
         ResultSet rs = null;
         sample.Modelos.Phoneplan e = null;
         try {
-            String query = "SELECT * FROM transaction where id = " + trans_id;
+            String query = "SELECT * FROM phoneplan where id_phoneplan = " + id_phoneplan;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
-            e = new sample.Modelos.Phoneplan(
-                    rs.getInt("id_phoneplan"),
-                    rs.getInt("quantity"),
-                    companyDAO.fetch(rs.getInt("id_company"))
-            );
+            if (rs.first()){
+                e = new sample.Modelos.Phoneplan(
+                        rs.getInt("id_phoneplane"),
+                        rs.getInt("quantity"),
+                        companyDAO.fetch(rs.getInt("id_company"))
+                );
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");
