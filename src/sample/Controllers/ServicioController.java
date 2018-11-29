@@ -30,7 +30,6 @@ public class ServicioController implements Initializable {
 
     @FXML TableView tabla;
     @FXML TableColumn clmCantidad;
-    @FXML TableColumn clmOtros;
 
     CompanyDAO companyDAO=new CompanyDAO(MySQL.getConnection());
     List<Company> company=new ArrayList<>();
@@ -49,7 +48,6 @@ public class ServicioController implements Initializable {
         switch (direccion){
             case "Hogar":
                 clmCantidad.setText("Compañia");
-                clmOtros.setText("Plan");
                 typeHomeServices=typeHomeServiceDAO.findAll();
                 cmbTipoServicios.setPromptText("Sevicios del Hogar");
                 for (int i = 0; i < typeHomeServices.size(); i++) {
@@ -98,8 +96,6 @@ public class ServicioController implements Initializable {
                         }
                     }
                     clmCantidad.setCellValueFactory(new PropertyValueFactory<TablaHomeService, String>("name"));
-                    clmOtros.setCellValueFactory(new PropertyValueFactory<TablaHomeService, String>("quantity"));
-                    clmOtros.setVisible(true);
                     clmCantidad.setPrefWidth(237.5);
                     tabla.setItems(homeServiceDAO.fetch2(id_type));
                     break;

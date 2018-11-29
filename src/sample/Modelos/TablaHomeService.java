@@ -2,11 +2,9 @@ package sample.Modelos;
 
 public class TablaHomeService {
     String name;
-    int quantity;
 
-    public TablaHomeService(String name, int quantity) {
+    public TablaHomeService(String name) {
         this.name = name;
-        this.quantity = quantity;
     }
 
     public String getName() {
@@ -15,13 +13,5 @@ public class TablaHomeService {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 }
