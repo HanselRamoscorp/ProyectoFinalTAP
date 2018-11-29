@@ -8,6 +8,7 @@
 
 .tab {
 -fx-background-color: linear-gradient(to top, -fx-base, derive(-fx-base,30%));
+-fx-alignment: center;
 }
 
 .menu-bar {
@@ -32,6 +33,10 @@ linear-gradient(to bottom, derive(-fx-base,+50%), derive(-fx-base,-40%), derive(
 .table-view {
 -fx-table-cell-border-color:derive(-fx-base,+10%);
 -fx-table-header-border-color:derive(-fx-base,+20%);
+}
+
+.table-cell {
+    -fx-alignment: CENTER;
 }
 
 .split-pane:horizontal > * > .split-pane-divider {
