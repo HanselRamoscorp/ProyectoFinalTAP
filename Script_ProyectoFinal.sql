@@ -1,4 +1,5 @@
 
+
 create table user(
   id_user int not null auto_increment,
   firstname varchar(20),
@@ -14,7 +15,7 @@ create table user(
 
 create table typeuser(
   id_typeuser int not null auto_increment,
-  typeuser varchar(10) not null,
+  typeuser varchar(10) not null, 
   constraint tuPK primary key (id_typeuser)
 
 );
@@ -116,9 +117,11 @@ constraint cPK primary key (id_commission)
 create table company(
   id_company int auto_increment not null,
   name varchar(20),
-id_commission int not null,
+  id_commission int not null,
+  id_typecompany int not null ,
   constraint comPK primary key (id_company),
-  constraint  comFK foreign key (id_commission) references commission(id_commission)
+  constraint  comFK foreign key (id_commission) references commission(id_commission),
+  constraint  comFK foreign key (id_company) references typecompany(id_typecompany)
 );
 
 create table recharge(
@@ -140,7 +143,9 @@ create table recharge(
 
 create table giftcartcredit(
   id_giftcartcredit int not null auto_increment,
-  credit int not null
+  credit int not null,
+  constraint gccPK primary key (id_giftcartcredit)
+
 );
 create table giftcart(
   id_giftcard int not null auto_increment,
@@ -152,3 +157,33 @@ create table giftcart(
 
 
 );
+
+create table busticket (
+  id_busticket int not null auto_increment,
+  clientname varchar(30) ,
+  pay_date datetime,
+  id_bus int not null ,
+  constraint btPK PRIMARY KEY (id_busticket),
+  constraint btFK foreign key (id_bus) references bus(id_bus)
+
+);
+
+  create table bus(
+  id_bus int not null auto_increment,
+  outdate datetime not null ,
+  id_origin int not null ,
+  id_destiny int not null,
+  id_linebus int not null,
+  constraint bPK primary key (id_bus),
+  constraint bFK foreign key (id_origin) references city(id_city),
+  constraint bFK2 foreign key (id_destiny) references city(id_city),
+  constraint bFK3 foreign key (id_linebus) references linebus(id_linebus)
+  );
+create table linebus(
+  id_linebus int not null auto_increment,
+  trip varchar(20),
+  amount int not null,
+  id_company int not null ,
+  constraint lbPK primary key (id_linebus),
+  constraint lbFK foreign key (id_company) references company(id_company)
+)
