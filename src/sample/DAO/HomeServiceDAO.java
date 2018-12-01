@@ -108,18 +108,24 @@ public class HomeServiceDAO {
     public ObservableList<TablaHomeService> fetch2(int id_type) {
         ObservableList<TablaHomeService> HomeService = FXCollections.observableArrayList();
         try {
-            String query = "select c.name" +
-                    "from homeservice h inner join company c on h.id_company = c.id_company" +
-                    "                   inner join planHS H2 on h.id_planHS = H2.id_planHS " +
+            String query = "select c.name " +
+                    "from homeservice h inner join company c on h.id_company = c.id_company " +
                     "where h.id_TypeHS="+id_type;
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             sample.Modelos.TablaHomeService p = null;
-            while(rs.next()) {
+            int i;
+            while (rs.next()) {
                 p = new sample.Modelos.TablaHomeService(
                         rs.getString("name")
                 );
                 HomeService.add(p);
+                i=HomeService.size();
+                if (i>=2){
+                    if (HomeService.get(i-1).getName().equals(HomeService.get(i-2).getName())) {
+                        HomeService.remove(i-1);
+                    }
+                }
             }
             rs.close();
             st.close();

@@ -2,49 +2,54 @@ package sample.Controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import sample.Complements.MySQL;
-import sample.DAO.CompanyDAO;
-import sample.DAO.HomeServiceDAO;
-import sample.DAO.PhoneplanDAO;
-import sample.DAO.TypeHomeServiceDAO;
+import sample.DAO.*;
 import sample.Modelos.*;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 import java.util.ResourceBundle;
 
 public class ServicioController implements Initializable {
     Controller controller=new Controller();
-    String direccion;
+    String direccion, company_name;
+    int cantPagar=0;
+
     @FXML ComboBox<String> cmbTipoServicios;
-    @FXML Button btnRegresar;
+    @FXML Button btnRegresar, btnAceptar;
     @FXML TextField textTelefono, textComision, textPago, textNumeReferencia, textConfTelefono;
 
     @FXML TableView tabla;
     @FXML TableColumn clmCantidad;
 
     CompanyDAO companyDAO=new CompanyDAO(MySQL.getConnection());
-    List<Company> company=new ArrayList<>();
     PhoneplanDAO phoneplanDAO=new PhoneplanDAO(MySQL.getConnection());
     TypeHomeServiceDAO typeHomeServiceDAO=new TypeHomeServiceDAO(MySQL.getConnection());
-    List<TypeHomeService> typeHomeServices=new ArrayList<>();
     HomeServiceDAO homeServiceDAO=new HomeServiceDAO(MySQL.getConnection());
+    PlanHSDAO planHSDAO=new PlanHSDAO(MySQL.getConnection());
+
+    ObservableList<TablaHomeService> tablaHomeService=null;
+    List<Company> company=new ArrayList<>();
+    List<TypeHomeService> typeHomeServices=new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        textTelefono.setVisible(false);
         textComision.setVisible(false);
         textPago.setVisible(false);
         textNumeReferencia.setVisible(false);
-        textConfTelefono.setVisible(false);
         switch (direccion){
             case "Hogar":
                 clmCantidad.setText("Compañia");
@@ -55,6 +60,7 @@ public class ServicioController implements Initializable {
                 }
                 textNumeReferencia.setVisible(true);
                 textPago.setVisible(true);
+                textPago.setEditable(false);
                 textComision.setVisible(true);
                 break;
             case "Recargas":
@@ -85,6 +91,7 @@ public class ServicioController implements Initializable {
         textPago.setOnMouseClicked(event);
         textTelefono.setOnMouseClicked(event);
         textConfTelefono.setOnMouseClicked(event);
+
         cmbTipoServicios.setOnAction(event1 -> {
             switch (direccion){
                 case "Hogar":
@@ -96,8 +103,8 @@ public class ServicioController implements Initializable {
                         }
                     }
                     clmCantidad.setCellValueFactory(new PropertyValueFactory<TablaHomeService, String>("name"));
-                    clmCantidad.setPrefWidth(237.5);
                     tabla.setItems(homeServiceDAO.fetch2(id_type));
+                    tablaHomeService=homeServiceDAO.fetch2(id_type);
                     break;
                 case "Recargas":
                     int id=0;
@@ -113,13 +120,67 @@ public class ServicioController implements Initializable {
                 case "Pagos":
             }
         });
+
+        //tabla.setOnMouseClicked(data);
+        btnAceptar.setOnAction(Aceptar);
+        textNumeReferencia.setOnKeyPressed(info);
     }
+
+    EventHandler<KeyEvent> info=new EventHandler<KeyEvent>() {
+        @Override
+        public void handle(KeyEvent event) {
+            if (event.getCode().getName().equals("Enter")){
+                switch (direccion){
+                    case "Hogar":
+                        String referencia=textNumeReferencia.getText();
+                        company_name=tablaHomeService.get(tabla.getSelectionModel().getSelectedIndex()).getName();
+                        cantPagar=planHSDAO.getQuantity(company_name, referencia);
+                        Alert a=new Alert(Alert.AlertType.CONFIRMATION);
+                        a.setTitle("Confirmar");
+                        a.setContentText("Datos registrados");
+                        a.show();
+                        textPago.setEditable(true);
+                        System.out.println(cantPagar);
+                        break;
+                    case "Recargas":
+                        break;
+                    case "Pagos":
+                }
+            }
+        }
+    };
+
+    EventHandler<ActionEvent> Aceptar=new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            try {
+                switch (direccion) {
+                    case "Hogar":
+                        textNumeReferencia.getText();
+                        textPago.getText();
+                        break;
+                    case "Recargas":
+                        break;
+                    case "Pagos":
+                }
+            }catch (Exception e){
+                System.out.println(e);
+            }
+        }
+    };
 
     EventHandler<MouseEvent> event=new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
             TextField text=(TextField) event.getSource();
             text.setText("");
+        }
+    };
+
+    EventHandler<MouseEvent> data=new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            company_name=tablaHomeService.get(tabla.getSelectionModel().getSelectedIndex()).getName();
         }
     };
 

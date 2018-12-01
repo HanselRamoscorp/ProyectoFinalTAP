@@ -1,6 +1,6 @@
 .root {
 -fx-base: rgb(50, 50, 50);
--fx-background-image: url("/Pictures/FondoLogin.jpg");
+-fx-background-image: url("/Pictures/Fondos/FondoLogin.jpg");
     -fx-background-size: cover;
     -fx-background-position: center center;
 -fx-control-inner-background:  rgb(50, 50, 50);

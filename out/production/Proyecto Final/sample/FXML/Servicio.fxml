@@ -9,6 +9,10 @@
 <?import javafx.scene.control.Button?>
 <?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
 <?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             prefHeight="400.0" prefWidth="600.0">
@@ -21,11 +25,11 @@
             <TableColumn editable="false" visible="false" fx:id="clmOtros" style="-fx-font-size: 20" prefWidth="237.5"/>
         </columns>
     </TableView>
-    <TextField fx:id="textComision" text="Comision"                   style="-fx-font-size: 20" prefWidth="500" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="60"/>
-    <TextField fx:id="textPago" text="Pago"                           style="-fx-font-size: 20" prefWidth="500" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="140"/>
-    <TextField fx:id="textNumeReferencia" text="Numero de Referencia" style="-fx-font-size: 20" prefWidth="500" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="190"/>
-    <TextField fx:id="textTelefono" text="Telefono"                   style="-fx-font-size: 20" prefWidth="500" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="140"/>
-    <TextField fx:id="textConfTelefono" text="Confirmar Telefono"     style="-fx-font-size: 20" prefWidth="500" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="190"/>
+    <TextField fx:id="textComision"       text="Comision"             style="-fx-font-size: 20" prefWidth="500" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="60"/>
+    <TextField fx:id="textPago"           text="Pago"                 style="-fx-font-size: 20" prefWidth="500" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="190"/>
+    <TextField fx:id="textNumeReferencia" text="Numero de Referencia" style="-fx-font-size: 20" prefWidth="500" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="140"/>
+    <TextField fx:id="textTelefono"       text="Telefono"             style="-fx-font-size: 20" prefWidth="500" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="240"/>
+    <TextField fx:id="textConfTelefono"   text="Confirmar Telefono"   style="-fx-font-size: 20" prefWidth="500" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="290"/>
 
     <Button fx:id="btnRegresar" prefHeight="30" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0">         <!--- Boton Pago de Servicio domestico -->
         <graphic>
@@ -33,5 +37,5 @@
         </graphic>
     </Button>
 
-    <Button fx:id="btnAceptar" text="Aceptar" style="-fx-font-size: 20" prefWidth="500" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="240"/>
+    <Button fx:id="btnAceptar" text="Aceptar" style="-fx-font-size: 20" prefWidth="500" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="340"/>
 </AnchorPane>

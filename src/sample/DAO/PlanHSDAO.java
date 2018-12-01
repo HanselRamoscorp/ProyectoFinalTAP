@@ -78,10 +78,35 @@ public class PlanHSDAO {
             String query = "SELECT * FROM planshs where id = " + trans_id;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
-            e = new sample.Modelos.PlanHS(
-                    rs.getInt("id_plan"),
-                    rs.getInt("quantity")
-            );
+            if (rs.first()){
+                e = new sample.Modelos.PlanHS(
+                        rs.getInt("id_plan"),
+                        rs.getInt("quantity")
+                );
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información...");
+        }
+        return e;
+    }
+
+    public int getQuantity(String nameCompany, String references) {
+        ResultSet rs = null;
+        int e = 0;
+        try {
+            String query = "select p.quantity "+
+            "from planhs p inner join homeservice h on p.id_planHS = h.id_planHS "+
+            "inner join paymenths p2 on h.id_HomeService = p2.id_HomeService "+
+            "inner join clienths c on p2.id_clienths = c.id_clientHS "+
+            "inner join company c2 on h.id_company = c2.id_company "+
+            "where c2.name='JUMAPA' "+
+            "and p2.referencesHS='A1B2C3D4'";
+            Statement st = conn.createStatement();
+            rs = st.executeQuery(query);
+            if (rs.first()){
+                e = rs.getInt("quantity");
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");
