@@ -136,11 +136,16 @@ public class ServicioController implements Initializable {
                         company_name=tablaHomeService.get(tabla.getSelectionModel().getSelectedIndex()).getName();
                         cantPagar=planHSDAO.getQuantity(company_name, referencia);
                         Alert a=new Alert(Alert.AlertType.CONFIRMATION);
-                        a.setTitle("Confirmar");
-                        a.setContentText("Datos registrados");
-                        a.show();
-                        textPago.setEditable(true);
-                        System.out.println(cantPagar);
+                        if (cantPagar!=0){
+                            a.setTitle("Confirmar");
+                            a.setContentText("Datos registrados");
+                            a.show();
+                            textPago.setEditable(true);
+                        }else{
+                            a.setTitle("Error");
+                            a.setContentText("Error al registrar");
+                            a.show();
+                        }
                         break;
                     case "Recargas":
                         break;
