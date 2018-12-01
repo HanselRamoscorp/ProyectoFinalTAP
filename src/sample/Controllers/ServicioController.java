@@ -79,6 +79,7 @@ public class ServicioController implements Initializable {
                 textTelefono.setVisible(true);
                 textConfTelefono.setVisible(true);
                 break;
+
             case "Pagos":
                 cmbTipoServicios.setPromptText("Pagos en linea");
                 cmbTipoServicios.getItems().addAll(
@@ -89,7 +90,10 @@ public class ServicioController implements Initializable {
                 textNumeReferencia.setVisible(true);
                 break;
             case "Autobus":
-                cmbTipoServicios.setPromptText("Autobus");
+                cmbTipoServicios.setVisible(false);
+                cmbTipoServicios.setPromptText("Empresa");
+                clmCantidad.setText("Autobus");
+
         }
 
 
