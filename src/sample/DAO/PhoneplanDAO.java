@@ -94,6 +94,27 @@ public class PhoneplanDAO {
         }
         return e;
     }
+
+    public int getId_phoneplan(int quantity, String compañia) {
+        ResultSet rs = null;
+        int e = 0;
+        try {
+            String query = "select p.id_phoneplane"+
+            " from phoneplan p inner join company c on p.id_company = c.id_company"+
+            " where p.quantity="+quantity+
+            " and c.name='"+compañia+"'";
+            Statement st = conn.createStatement();
+            rs = st.executeQuery(query);
+            if (rs.first()){
+                e = rs.getInt("id_phoneplane");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información...");
+        }
+        return e;
+    }
+
 /*
     public Boolean delete(int trans_id) {
         try {

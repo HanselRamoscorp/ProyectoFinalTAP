@@ -1,11 +1,9 @@
 package sample.DAO;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import sample.Complements.MySQL;
@@ -93,6 +91,24 @@ public class RechargeDAO {
         }
         return e;
     }
+
+    public Boolean insert(String telefono, int id_plan) {
+        try {
+            String query = "insert into recharge (phonenumber,id_phoneplane,date_amount)"
+                    + " values (?, ?, now())";
+            PreparedStatement st =  conn.prepareStatement(query);
+            st.setString(1, telefono);
+            st.setInt(2, id_plan);
+            st.execute();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
+        return false;
+    }
+
 /*
     public Boolean delete(int trans_id) {
         try {
@@ -104,28 +120,6 @@ public class RechargeDAO {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return false;
-    }
-
-    public Boolean insert(sample.Modelos.Recharge customer) {
-        try {
-            String query = "insert into customer "
-                    + " (category, description, date_created, amount, type)"
-                    + " values (?, ?, ?, ?, ?)";
-            PreparedStatement st =  conn.prepareStatement(query);
-            st.setString(1, customer.getCategory());
-            st.setString(2, customer.getDescription());
-            st.setDate(  3, customer.getDate_created());
-            st.setDouble(4, customer.getAmount());
-            st.setString(5, String.valueOf(customer.getType()));
-            st.execute();
-            //data.add(customer);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
-
         return false;
     }
 

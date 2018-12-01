@@ -1,5 +1,6 @@
 package sample.Controllers;
 
+import com.mysql.jdbc.authentication.MysqlClearPasswordPlugin;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -24,7 +25,7 @@ import java.util.ResourceBundle;
 public class ServicioController implements Initializable {
     Controller controller=new Controller();
     String direccion, company_name, referencia;
-    int cantPagar=0, pago;
+    int cantPagar=0, pago, id=0;
     String telefono="";
 
     @FXML ComboBox<String> cmbTipoServicios;
@@ -44,8 +45,10 @@ public class ServicioController implements Initializable {
     HomeServiceDAO homeServiceDAO=new HomeServiceDAO(MySQL.getConnection());
     PlanHSDAO planHSDAO=new PlanHSDAO(MySQL.getConnection());
     PaymentHSDAO paymentHSDAO=new PaymentHSDAO(MySQL.getConnection());
+    RechargeDAO rechargeDAO=new RechargeDAO(MySQL.getConnection());
 
     ObservableList<TablaHomeService> tablaHomeService=null;
+    ObservableList<Phoneplan> p=null;
     List<Company> company=new ArrayList<>();
     List<TypeHomeService> typeHomeServices=new ArrayList<>();
     quantity_telephone e=null;
@@ -122,7 +125,6 @@ public class ServicioController implements Initializable {
                     tablaHomeService=homeServiceDAO.fetch2(id_type);
                     break;
                 case "Recargas":
-                    int id=0;
                     for (int i = 0; i < company.size(); i++) {
                         if (company.get(i).getName().equals(cmbTipoServicios.getSelectionModel().getSelectedItem())){
                             id=company.get(i).getId_company();
@@ -131,6 +133,7 @@ public class ServicioController implements Initializable {
                     }
                     clmCantidad.setCellValueFactory(new PropertyValueFactory<Phoneplan, String>("quantity"));
                     tabla.setItems(phoneplanDAO.fetchPlanCompany(id));
+                    p=phoneplanDAO.fetchPlanCompany(id);
                     break;
                 case "Pagos":
             }
@@ -145,33 +148,28 @@ public class ServicioController implements Initializable {
         @Override
         public void handle(KeyEvent event) {
             if (event.getCode().getName().equals("Enter")){
-                switch (direccion){
-                    case "Hogar":
-                        referencia=textNumeReferencia.getText();
-                        company_name=tablaHomeService.get(tabla.getSelectionModel().getSelectedIndex()).getName();
-                        e=planHSDAO.getQuantityAndPhone(company_name, referencia);
-                        Alert a=new Alert(Alert.AlertType.CONFIRMATION);
-                        if (e!=null){
-                            if (e.getPay_amount()!=0){
-                                lblPago.setText("Cuenta de usuario pagada");
-                                lblPago.setVisible(true);
-                            }else{
-                                cantPagar=e.getQuantity();
-                                telefono=e.getTelephone();
-                                a.setTitle("Confirmar");
-                                a.setContentText("Datos registrados");
-                                a.show();
-                                textPago.setEditable(true);
-                            }
-                        }else{
-                            a.setTitle("Error");
-                            a.setContentText("Numero de referencia o empresa invalido");
+                if (direccion.equals("Hogar")) {
+                    referencia = textNumeReferencia.getText();
+                    company_name = tablaHomeService.get(tabla.getSelectionModel().getSelectedIndex()).getName();
+                    e = planHSDAO.getQuantityAndPhone(company_name, referencia);
+                    Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+                    if (e != null) {
+                        if (e.getPay_amount() != 0) {
+                            lblPago.setText("Cuenta de usuario pagada");
+                            lblPago.setVisible(true);
+                        } else {
+                            cantPagar = e.getQuantity();
+                            telefono = e.getTelephone();
+                            a.setTitle("Confirmar");
+                            a.setContentText("Datos registrados");
                             a.show();
+                            textPago.setEditable(true);
                         }
-                        break;
-                    case "Recargas":
-                        break;
-                    case "Pagos":
+                    } else {
+                        a.setTitle("Error");
+                        a.setContentText("Numero de referencia o empresa invalido");
+                        a.show();
+                    }
                 }
             }
         }
@@ -186,9 +184,14 @@ public class ServicioController implements Initializable {
                         if(textTelefono.getText().equals(textConfTelefono.getText())){
                             pago=Integer.parseInt(textPago.getText());
                             if (pago>=cantPagar && telefono.equals(textTelefono.getText())) {
-                                pago-=cantPagar;
-                                if (paymentHSDAO.update(cantPagar, pago, referencia))
+                                if (textTelefono.getText().equals(e.getTelephone())){
+                                    pago-=cantPagar;
+                                    if (paymentHSDAO.update(cantPagar, pago, referencia))
+                                        lblPago.setVisible(true);
+                                }else{
+                                    lblPago.setText("Numero de telefono invalido");
                                     lblPago.setVisible(true);
+                                }
                             }
                             else{
                                 lblPago.setText("Pago insuficiente");
@@ -200,6 +203,22 @@ public class ServicioController implements Initializable {
                         }
                         break;
                     case "Recargas":
+                        if (textTelefono.getText().equals(textConfTelefono.getText())){
+                            telefono=textTelefono.getText();
+                            cantPagar=p.get(tabla.getSelectionModel().getSelectedIndex()).getQuantity();
+                            company_name=cmbTipoServicios.getSelectionModel().getSelectedItem();
+                            id=phoneplanDAO.getId_phoneplan(cantPagar,company_name);
+                            if (rechargeDAO.insert(telefono, id)){
+                                lblPago.setText("Recarga registrada");
+                                lblPago.setVisible(true);
+                            }else{
+                                lblPago.setText("Recarga invalida");
+                                lblPago.setVisible(true);
+                            }
+                        }else{
+                            lblPago.setText("Los numero no coinciden");
+                            lblPago.setVisible(true);
+                        }
                         break;
                     case "Pagos":
                 }
@@ -221,11 +240,13 @@ public class ServicioController implements Initializable {
     EventHandler<MouseEvent> data=new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
-            company_name=tablaHomeService.get(tabla.getSelectionModel().getSelectedIndex()).getName();
-            img=new Image("/Pictures/Company/"+company_name+".png");
-            lblImagen.setImage(img);
-            lblImagen.setFitHeight(300);
-            lblImagen.setFitHeight(150);
+            if (direccion.equals("Hogar")){
+                company_name=tablaHomeService.get(tabla.getSelectionModel().getSelectedIndex()).getName();
+                img=new Image("/Pictures/Company/"+company_name+".png");
+                lblImagen.setImage(img);
+                lblImagen.setFitHeight(300);
+                lblImagen.setFitHeight(150);
+            }
         }
     };
 

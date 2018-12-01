@@ -1,5 +1,3 @@
-
-
 create table user(
   id_user int not null auto_increment,
   firstname varchar(20),
