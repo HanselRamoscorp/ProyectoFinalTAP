@@ -1,19 +1,14 @@
 package sample.Controllers;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import sample.Complements.MySQL;
 import sample.DAO.*;
 import sample.Modelos.*;
@@ -25,7 +20,7 @@ import java.util.ResourceBundle;
 
 public class ServicioController implements Initializable {
     Controller controller=new Controller();
-    String direccion, company_name;
+    String direccion, company_name, referencia;
     int cantPagar=0;
 
     @FXML ComboBox<String> cmbTipoServicios;
@@ -132,7 +127,7 @@ public class ServicioController implements Initializable {
             if (event.getCode().getName().equals("Enter")){
                 switch (direccion){
                     case "Hogar":
-                        String referencia=textNumeReferencia.getText();
+                        referencia=textNumeReferencia.getText();
                         company_name=tablaHomeService.get(tabla.getSelectionModel().getSelectedIndex()).getName();
                         cantPagar=planHSDAO.getQuantity(company_name, referencia);
                         Alert a=new Alert(Alert.AlertType.CONFIRMATION);
