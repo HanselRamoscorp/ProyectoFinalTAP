@@ -23,6 +23,8 @@ public class HomeServiceDAO {
     CompanyDAO companyDAO=new CompanyDAO(MySQL.getConnection());
     PlanHSDAO planHSDAO=new PlanHSDAO(MySQL.getConnection());
 
+    int i;
+
     private static ObservableList<sample.Modelos.HomeService> data = FXCollections.observableArrayList();
 
     public HomeServiceDAO(Connection conn) { this.conn = conn; }
@@ -110,22 +112,16 @@ public class HomeServiceDAO {
         try {
             String query = "select c.name " +
                     "from homeservice h inner join company c on h.id_company = c.id_company " +
-                    "where h.id_TypeHS="+id_type;
+                    "where h.id_TypeHS="+id_type+
+                    " group by c.name";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             sample.Modelos.TablaHomeService p = null;
-            int i;
             while (rs.next()) {
                 p = new sample.Modelos.TablaHomeService(
                         rs.getString("name")
                 );
                 HomeService.add(p);
-                i=HomeService.size();
-                if (i>=2){
-                    if (HomeService.get(i-1).getName().equals(HomeService.get(i-2).getName())) {
-                        HomeService.remove(i-1);
-                    }
-                }
             }
             rs.close();
             st.close();

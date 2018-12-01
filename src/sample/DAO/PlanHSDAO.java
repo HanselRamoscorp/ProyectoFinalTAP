@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sample.Modelos.quantity_telephone;
 
 public class PlanHSDAO {
 
@@ -91,21 +92,25 @@ public class PlanHSDAO {
         return e;
     }
 
-    public int getQuantity(String nameCompany, String references) {
+    public quantity_telephone getQuantityAndPhone(String nameCompany, String references) {
         ResultSet rs = null;
-        int e = 0;
+        quantity_telephone e=null;
         try {
-            String query = "select p.quantity "+
+            String query = "select p.quantity, c.phonenumber, p2.pay_amount "+
             "from planhs p inner join homeservice h on p.id_planHS = h.id_planHS "+
             "inner join paymenths p2 on h.id_HomeService = p2.id_HomeService "+
             "inner join clienths c on p2.id_clienths = c.id_clientHS "+
             "inner join company c2 on h.id_company = c2.id_company "+
-            "where c2.name='JUMAPA' "+
-            "and p2.referencesHS='A1B2C3D4'";
+            "where c2.name='"+nameCompany+"' "+
+            "and p2.referencesHS='"+references+"'";
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
             if (rs.first()){
-                e = rs.getInt("quantity");
+                e = new quantity_telephone(
+                        rs.getInt("quantity"),
+                        rs.getString("phonenumber"),
+                        rs.getInt("pay_amount")
+                );
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

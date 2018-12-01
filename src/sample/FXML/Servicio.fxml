@@ -38,4 +38,12 @@
     </Button>
 
     <Button fx:id="btnAceptar" text="Aceptar" style="-fx-font-size: 20" prefWidth="500" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="340"/>
+    <Label text="Pago Registrado" visible="false" style="-fx-font-size: 15" textFill="chartreuse" fx:id="lblPago" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="390"/>
+
+    <StackPane fx:id="stPane" prefWidth="460" prefHeight="320" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="400">
+        <Group StackPane.alignment="CENTER">
+            <ImageView fx:id="lblImagen" AnchorPane.leftAnchor="0" fitWidth="460" fitHeight="320" AnchorPane.topAnchor="0">
+            </ImageView>
+        </Group>
+    </StackPane>
 </AnchorPane>
