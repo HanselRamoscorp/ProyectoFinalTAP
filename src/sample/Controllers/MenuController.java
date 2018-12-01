@@ -12,7 +12,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MenuController implements Initializable {
-    @FXML Button btnCerrarSesion, btnServHogar, btnRecargas, btnPagos;
+    @FXML Button btnCerrarSesion, btnServHogar, btnRecargas, btnPagos,btnbus;
     String direccion;
     Controller controller=new Controller();
     @Override
@@ -25,6 +25,7 @@ public class MenuController implements Initializable {
         btnServHogar.setOnAction(evt);
         btnRecargas.setOnAction(evt);
         btnPagos.setOnAction(evt);
+        btnbus.setOnAction(evt);
     }
 
     EventHandler<ActionEvent> evt=new EventHandler<ActionEvent>() {
@@ -38,6 +39,9 @@ public class MenuController implements Initializable {
                 else
                     if(event.getSource().equals(btnPagos))
                         direccion="Pagos";
+                    else
+                    if(event.getSource().equals(btnbus))
+                        direccion="Autobus";
             Stage servicioStage=new Stage();
             servicioStage.setTitle("Servicio");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/FXML/Servicio.fxml"));

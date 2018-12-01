@@ -6,26 +6,36 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
-<AnchorPane xmlns="http://javafx.com/javafx"
+<GridPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            prefHeight="400.0" prefWidth="600.0">
-    <Button fx:id="btnServHogar" text="Servicios del Hogar" contentDisplay="TOP" AnchorPane.topAnchor="250" AnchorPane.rightAnchor="250">         <!--- Boton Pago de Servicio domestico -->
+            prefHeight="400.0" prefWidth="600.0"
+            alignment="CENTER"              >
+    <Button fx:id="btnServHogar" text="Servicios del Hogar" contentDisplay="TOP" GridPane.columnIndex="1" GridPane.rowIndex="1">         <!--- Boton Pago de Servicio domestico -->
         <graphic>
             <MaterialIconView glyphName="LIVE_TV" glyphSize="200" fill= "azure"/>
         </graphic>
     </Button>
 
-    <Button fx:id="btnRecargas" text="Recargas" contentDisplay="TOP" AnchorPane.topAnchor="250" AnchorPane.leftAnchor="250">         <!--- Boton Pago de Servicio Recargas -->
+    <Button fx:id="btnbus" text="Boleto de Autobus" contentDisplay="TOP"  GridPane.columnIndex="2" GridPane.rowIndex="1">         <!--- Boton Pago de Servicio domestico -->
+        <graphic>
+            <FontAwesomeIconView glyphName="BUS" glyphSize="200" fill= "azure"/>
+        </graphic>
+    </Button>
+
+
+    <Button fx:id="btnRecargas" text="Recargas" contentDisplay="TOP"  GridPane.columnIndex="3" GridPane.rowIndex="1">         <!--- Boton Pago de Servicio Recargas -->
         <graphic>
             <MaterialIconView glyphName="CONTACT_PHONE" glyphSize="200" fill= "azure"/>
         </graphic>
     </Button>
 
-    <Button fx:id="btnPagos" text="Pago en linea" contentDisplay="TOP" prefWidth="220" AnchorPane.topAnchor="250" AnchorPane.leftAnchor="580">         <!--- Boton Pago de Servicio Recargas -->
+    <Button fx:id="btnPagos" text="Pago en linea" contentDisplay="TOP" prefWidth="220"  GridPane.columnIndex="4" GridPane.rowIndex="1">         <!--- Boton Pago de Servicio Recargas -->
         <graphic>
             <FontAwesomeIconView glyphName="DOLLAR" glyphSize="200" fill= "azure"/>
         </graphic>
     </Button>
+
+
 
     <Button fx:id="btnCerrarSesion" text="Cerrar sesion" contentDisplay="RIGHT" AnchorPane.topAnchor="650" AnchorPane.rightAnchor="0">         <!--- Boton Pago de Servicio Recargas -->
         <graphic>
@@ -33,4 +43,6 @@
         </graphic>
     </Button>
 
-</AnchorPane>
+
+
+</GridPane>

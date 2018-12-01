@@ -82,7 +82,13 @@ public class ServicioController implements Initializable {
                 textComision.setVisible(true);
                 textPago.setVisible(true);
                 textNumeReferencia.setVisible(true);
+                break;
+            case "Autobus":
+                cmbTipoServicios.setPromptText("Autobus");
         }
+
+
+
         btnRegresar.setOnAction(event -> {
             controller.mostMenu(event);
         });
