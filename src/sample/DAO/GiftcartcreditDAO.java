@@ -8,10 +8,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sample.Complements.MySQL;
 
 public class GiftcartcreditDAO {
 
     Connection conn;
+    CompanyDAO companyDAO=new CompanyDAO(MySQL.getConnection());
 
     private static ObservableList<sample.Modelos.Giftcartcredit> data = FXCollections.observableArrayList();
 
@@ -31,8 +33,9 @@ public class GiftcartcreditDAO {
             sample.Modelos.Giftcartcredit p = null;
             while(rs.next()) {
                 p = new sample.Modelos.Giftcartcredit(
-                        rs.getInt("id_giftcartcredit"),
-                        rs.getInt("credit")
+                        rs.getInt("id_Giftcartcredite"),
+                        rs.getInt("quantity"),
+                        companyDAO.fetch(rs.getInt("id_company"))
                 );
                 Giftcartcredit.add(p);
             }
@@ -47,23 +50,23 @@ public class GiftcartcreditDAO {
     }
 
 
-    public ObservableList<sample.Modelos.Giftcartcredit> fetchAll() {
+    public ObservableList<sample.Modelos.Giftcartcredit> fetchGcredit(int id_company) {
         ObservableList<sample.Modelos.Giftcartcredit> Giftcartcredit = FXCollections.observableArrayList();
         try {
-            String query = "SELECT * FROM transaction";
+            String query = "SELECT * FROM giftcartcredit where id_company="+id_company;
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             sample.Modelos.Giftcartcredit p = null;
             while(rs.next()) {
                 p = new sample.Modelos.Giftcartcredit(
-                        rs.getInt("id_giftcartcredit"),
-                        rs.getInt("credit")
+                        rs.getInt("id_giftcartcredite"),
+                        rs.getInt("credit"),
+                        companyDAO.fetch(rs.getInt("id_company"))
                 );
                 Giftcartcredit.add(p);
             }
             rs.close();
             st.close();
-
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");
@@ -71,23 +74,47 @@ public class GiftcartcreditDAO {
         return Giftcartcredit;
     }
 
-    public sample.Modelos.Giftcartcredit fetch(int id_giftcartcreadit) {
+    public sample.Modelos.Giftcartcredit fetch(int id_Giftcartcredit) {
         ResultSet rs = null;
         sample.Modelos.Giftcartcredit e = null;
         try {
-            String query = "SELECT * FROM transaction where id = " + id_giftcartcreadit;
+            String query = "SELECT * FROM Giftcartcredit where id_Giftcartcredit = " + id_Giftcartcredit;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
-            e = new sample.Modelos.Giftcartcredit(
-                    rs.getInt("id_giftcartcredit"),
-                    rs.getInt("credit")
-            );
+            if (rs.first()){
+                e = new sample.Modelos.Giftcartcredit(
+                        rs.getInt("id_Giftcartcredite"),
+                        rs.getInt("quantity"),
+                        companyDAO.fetch(rs.getInt("id_company"))
+                );
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");
         }
         return e;
     }
+
+    public int getId_Giftcartcredit(int quantity, String compañia) {
+        ResultSet rs = null;
+        int e = 0;
+        try {
+            String query = "select p.id_Giftcartcredite"+
+                    " from Giftcartcredit p inner join company c on p.id_company = c.id_company"+
+                    " where p.quantity="+quantity+
+                    " and c.name='"+compañia+"'";
+            Statement st = conn.createStatement();
+            rs = st.executeQuery(query);
+            if (rs.first()){
+                e = rs.getInt("id_Giftcartcredite");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información...");
+        }
+        return e;
+    }
+
 /*
     public Boolean delete(int trans_id) {
         try {

@@ -8,33 +8,36 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sample.Complements.MySQL;
 
-public class CityDAO {
+public class LinebusDAO {
 
     Connection conn;
+    CompanyDAO companyDAO=new CompanyDAO(MySQL.getConnection());
 
-    private static ObservableList<sample.Modelos.City> data = FXCollections.observableArrayList();
 
-    public CityDAO(Connection conn) { this.conn = conn; }
+    private static ObservableList<sample.Modelos.Linebus> data = FXCollections.observableArrayList();
 
-    public static void addTransaction(sample.Modelos.City customer)
+    public LinebusDAO(Connection conn) { this.conn = conn; }
+
+    public static void addTransaction(sample.Modelos.Linebus customer)
     {
         data.add(customer);
     }
 
-    public List<sample.Modelos.City> findAll() {
-        List<sample.Modelos.City> City = new ArrayList<sample.Modelos.City>();
+
+    public sample.Modelos.Linebus fetch2(int id_linebus) {
+        sample.Modelos.Linebus p = null;
         try {
-            String query = "SELECT * FROM transaction";
+            String query = "SELECT * FROM linebus where id_linebus = " + id_linebus;
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
-            sample.Modelos.City p = null;
-            while(rs.next()) {
-                p = new sample.Modelos.City(
-                    rs.getInt("id_city"),
-                    rs.getString("city")
+            if(rs.next()) {
+                p = new sample.Modelos.Linebus(
+                        rs.getInt("id_linebus"),
+                        rs.getString("trip"),
+                        companyDAO.fetch(rs.getInt("id_company"))
                 );
-                City.add(p);
             }
             rs.close();
             st.close();
@@ -43,53 +46,10 @@ public class CityDAO {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");
         }
-        return City;
+        return p;
     }
 
 
-    public ObservableList<sample.Modelos.City> fetchAll() {
-        ObservableList<sample.Modelos.City> City = FXCollections.observableArrayList();
-        try {
-            String query = "SELECT * FROM city";
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            sample.Modelos.City p = null;
-            while(rs.next()) {
-                p = new sample.Modelos.City(
-                        rs.getInt("id_city"),
-                        rs.getString("city")
-                );
-                City.add(p);
-            }
-            rs.close();
-            st.close();
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("Error al recuperar información...");
-        }
-        return City;
-    }
-
-    public sample.Modelos.City fetch(int id_city) {
-        ResultSet rs = null;
-        sample.Modelos.City e = null;
-        try {
-            String query = "SELECT * FROM city where id_city = " + id_city;
-            Statement st = conn.createStatement();
-            rs = st.executeQuery(query);
-            if(rs.first()){
-                e = new sample.Modelos.City(
-                        rs.getInt("id_city"),
-                        rs.getString("city")
-                );
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("Error al recuperar información...");
-        }
-        return e;
-    }
 /*
     public Boolean delete(int trans_id) {
         try {
@@ -104,7 +64,7 @@ public class CityDAO {
         return false;
     }
 
-    public Boolean insert(sample.Modelos.City customer) {
+    public Boolean insert(sample.Modelos.Linebus customer) {
         try {
             String query = "insert into customer "
                     + " (category, description, date_created, amount, type)"
@@ -126,7 +86,7 @@ public class CityDAO {
         return false;
     }
 
-    public Boolean update(sample.Modelos.City customer) {
+    public Boolean update(sample.Modelos.Linebus customer) {
         try {
             String query = "update customer "
                     + " set category = ?, description = ?, date_created = ?, amount = ?, type = ?"

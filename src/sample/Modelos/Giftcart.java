@@ -2,13 +2,13 @@ package sample.Modelos;
 
 public class Giftcart {
     int id_giftcart;
-    Company id_company;
     Giftcartcredit id_giftcartcredit;
+    String pay_date;
 
-    public Giftcart(int id_giftcart, Company id_company, Giftcartcredit id_giftcartcredit) {
+    public Giftcart(int id_giftcart, Giftcartcredit id_giftcartcredit, String pay_date) {
         this.id_giftcart = id_giftcart;
-        this.id_company = id_company;
         this.id_giftcartcredit = id_giftcartcredit;
+        this.pay_date = pay_date;
     }
 
     public int getId_giftcart() {
@@ -19,14 +19,6 @@ public class Giftcart {
         this.id_giftcart = id_giftcart;
     }
 
-    public Company getId_company() {
-        return id_company;
-    }
-
-    public void setId_company(Company id_company) {
-        this.id_company = id_company;
-    }
-
     public Giftcartcredit getId_giftcartcredit() {
         return id_giftcartcredit;
     }
@@ -34,4 +26,13 @@ public class Giftcart {
     public void setId_giftcartcredit(Giftcartcredit id_giftcartcredit) {
         this.id_giftcartcredit = id_giftcartcredit;
     }
+
+    public String getPay_date() {
+        return pay_date;
+    }
+
+    public void setPay_date(String pay_date) {
+        this.pay_date = pay_date;
+    }
 }
+

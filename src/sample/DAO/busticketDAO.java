@@ -1,40 +1,37 @@
 package sample.DAO;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sample.Complements.MySQL;
 
-public class CityDAO {
+public class busticketDAO {
 
     Connection conn;
 
-    private static ObservableList<sample.Modelos.City> data = FXCollections.observableArrayList();
+    private static ObservableList<sample.Modelos.Busticket> data = FXCollections.observableArrayList();
 
-    public CityDAO(Connection conn) { this.conn = conn; }
+    public busticketDAO(Connection conn) { this.conn = conn; }
 
-    public static void addTransaction(sample.Modelos.City customer)
-    {
-        data.add(customer);
-    }
 
-    public List<sample.Modelos.City> findAll() {
-        List<sample.Modelos.City> City = new ArrayList<sample.Modelos.City>();
+
+  /*  public List<sample.Modelos.Busticket> findAll() {
+        List<sample.Modelos.Busticket> Busticket = new ArrayList<sample.Modelos.Busticket>();
         try {
             String query = "SELECT * FROM transaction";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
-            sample.Modelos.City p = null;
+            sample.Modelos.Busticket p = null;
             while(rs.next()) {
-                p = new sample.Modelos.City(
-                    rs.getInt("id_city"),
-                    rs.getString("city")
+                p = new sample.Modelos.Busticket(
+                        rs.getInt("id_Busticket"),
+                        rs.getString("phonenumber"),
+                        phoneplanDAO.fetch(rs.getInt("id_phoneplan"))
                 );
-                City.add(p);
+                Busticket.add(p);
             }
             rs.close();
             st.close();
@@ -43,23 +40,24 @@ public class CityDAO {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");
         }
-        return City;
+        return Busticket;
     }
 
 
-    public ObservableList<sample.Modelos.City> fetchAll() {
-        ObservableList<sample.Modelos.City> City = FXCollections.observableArrayList();
+    public ObservableList<sample.Modelos.Busticket> fetchAll() {
+        ObservableList<sample.Modelos.Busticket> Busticket = FXCollections.observableArrayList();
         try {
-            String query = "SELECT * FROM city";
+            String query = "SELECT * FROM transaction";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
-            sample.Modelos.City p = null;
+            sample.Modelos.Busticket p = null;
             while(rs.next()) {
-                p = new sample.Modelos.City(
-                        rs.getInt("id_city"),
-                        rs.getString("city")
+                p = new sample.Modelos.Busticket(
+                        rs.getInt("id_Busticket"),
+                        rs.getString("phonenumber"),
+                        phoneplanDAO.fetch(rs.getInt("id_phoneplan"))
                 );
-                City.add(p);
+                Busticket.add(p);
             }
             rs.close();
             st.close();
@@ -68,28 +66,45 @@ public class CityDAO {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");
         }
-        return City;
+        return Busticket;
     }
 
-    public sample.Modelos.City fetch(int id_city) {
+    public sample.Modelos.Busticket fetch(String trans_id) {
         ResultSet rs = null;
-        sample.Modelos.City e = null;
+        sample.Modelos.Busticket e = null;
         try {
-            String query = "SELECT * FROM city where id_city = " + id_city;
+            String query = "SELECT * FROM transaction where id = " + trans_id;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
-            if(rs.first()){
-                e = new sample.Modelos.City(
-                        rs.getInt("id_city"),
-                        rs.getString("city")
-                );
-            }
+            e = new sample.Modelos.Busticket(
+                    rs.getInt("id_Busticket"),
+                    rs.getString("phonenumber"),
+                    phoneplanDAO.fetch(rs.getInt("id_phoneplan"))
+            );
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");
         }
         return e;
     }
+*/
+    public Boolean insert(String name, int id_bus) {
+        try {
+            String query = "insert into busticket (clientname, pay_date, id_bus)"
+                    + " values (?, now(), ?)";
+            PreparedStatement st =  conn.prepareStatement(query);
+            st.setString(1, name);
+            st.setInt(2, id_bus);
+            st.execute();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
+        return false;
+    }
+
 /*
     public Boolean delete(int trans_id) {
         try {
@@ -104,29 +119,7 @@ public class CityDAO {
         return false;
     }
 
-    public Boolean insert(sample.Modelos.City customer) {
-        try {
-            String query = "insert into customer "
-                    + " (category, description, date_created, amount, type)"
-                    + " values (?, ?, ?, ?, ?)";
-            PreparedStatement st =  conn.prepareStatement(query);
-            st.setString(1, customer.getCategory());
-            st.setString(2, customer.getDescription());
-            st.setDate(  3, customer.getDate_created());
-            st.setDouble(4, customer.getAmount());
-            st.setString(5, String.valueOf(customer.getType()));
-            st.execute();
-            //data.add(customer);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
-
-        return false;
-    }
-
-    public Boolean update(sample.Modelos.City customer) {
+    public Boolean update(sample.Modelos.Busticket customer) {
         try {
             String query = "update customer "
                     + " set category = ?, description = ?, date_created = ?, amount = ?, type = ?"
