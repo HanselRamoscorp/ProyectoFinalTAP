@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
+<?import javafx.scene.image.ImageView?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefHeight="400.0" prefWidth="600.0">
+    <Button fx:id="btnRegresar" prefHeight="30" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0">         <!--- Boton Pago de Servicio domestico -->
+        <graphic>
+            <MaterialIconView glyphName="KEYBOARD_ARROW_LEFT" glyphSize="15" fill="azure"/>
+        </graphic>
+    </Button>
+    <ComboBox fx:id="cmbTipoServicios"    style="-fx-font-size: 20" prefWidth="720" prefHeight="15" AnchorPane.leftAnchor="80" AnchorPane.topAnchor="10"/>
+    <TableView fx:id="tabla" style="-fx-font-size: 20" prefWidth="200" prefHeight="550" AnchorPane.leftAnchor="80" AnchorPane.topAnchor="60">
+        <columns>
+            <TableColumn fx:id="clmCompañia"  text="Empresa" editable="false" style="-fx-font-size: 20" prefWidth="175"/>
+        </columns>
+    </TableView>
+    <TableView fx:id="tabla2" style="-fx-font-size: 20" prefWidth="500" prefHeight="550" AnchorPane.leftAnchor="300" AnchorPane.topAnchor="60">
+        <columns>
+            <TableColumn text="Compañia"   editable="false" fx:id="clmCompania"   style="-fx-font-size: 20" prefWidth="158"/>
+            <TableColumn text="Porcentaje" editable="false" fx:id="clmPorcentaje" style="-fx-font-size: 20" prefWidth="158"/>
+            <TableColumn text="Cantidad"   editable="false" fx:id="clmCanttidad"  style="-fx-font-size: 20" prefWidth="158"/>
+        </columns>
+    </TableView>
+
+    <TextField fx:id="textName"      style="-fx-font-size: 20" prefWidth="500" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="60"/>
+    <ComboBox fx:id="cmbComission"           style="-fx-font-size: 20" prefWidth="500" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="110"/>
+    <ComboBox fx:id="cmbCantidadPlan"        style="-fx-font-size: 20" prefWidth="500" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="160"/>
+    <ComboBox fx:id="cmbTipeService"         style="-fx-font-size: 20" prefWidth="500" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="210"/>
+    <StackPane fx:id="stPane" prefWidth="460" prefHeight="320" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="350">
+        <Group StackPane.alignment="CENTER">
+            <ImageView fx:id="lblImagen" AnchorPane.leftAnchor="0" fitWidth="460" fitHeight="320" AnchorPane.topAnchor="0"/>
+        </Group>
+    </StackPane>
+
+    <Button fx:id="btnGuardar" text="Guardar" prefHeight="15" prefWidth="150" AnchorPane.topAnchor="250" AnchorPane.rightAnchor="40"/>
+    <Button fx:id="btnCargar" text="Cambiar imagen" prefHeight="15" prefWidth="150" AnchorPane.topAnchor="280" AnchorPane.rightAnchor="40">
+        <graphic>
+            <MaterialIconView glyphName="KEYBOARD_ARROW_LEFT" glyphSize="15" fill="azure"/>
+        </graphic>
+    </Button>
+</AnchorPane>

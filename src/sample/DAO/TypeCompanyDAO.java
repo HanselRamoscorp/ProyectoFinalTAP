@@ -50,7 +50,7 @@ public class TypeCompanyDAO {
     public ObservableList<sample.Modelos.TypeCompany> fetchAll() {
         ObservableList<sample.Modelos.TypeCompany> TypeCompany = FXCollections.observableArrayList();
         try {
-            String query = "SELECT * FROM transaction";
+            String query = "SELECT * FROM typecompany";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             sample.Modelos.TypeCompany p = null;

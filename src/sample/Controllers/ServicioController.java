@@ -17,13 +17,16 @@ import sample.Complements.MySQL;
 import sample.DAO.*;
 import sample.Modelos.*;
 
+import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class ServicioController implements Initializable {
     Controller controller=new Controller();
+    User user=null;
     String direccion, company_name, referencia;
     int cantPagar=0, pago, id=0;
     String telefono="";
@@ -52,6 +55,7 @@ public class ServicioController implements Initializable {
     List<Company> company=new ArrayList<>();
     List<TypeHomeService> typeHomeServices=new ArrayList<>();
     quantity_telephone e=null;
+    Company datos=null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -98,7 +102,7 @@ public class ServicioController implements Initializable {
 
 
         btnRegresar.setOnAction(event -> {
-            controller.mostMenu(event);
+            controller.mostMenu(event, user);
         });
         textComision.setEditable(false);
         textNumeReferencia.setOnMouseClicked(event);
@@ -130,12 +134,20 @@ public class ServicioController implements Initializable {
                     clmCantidad.setCellValueFactory(new PropertyValueFactory<Phoneplan, String>("quantity"));
                     tabla.setItems(phoneplanDAO.fetchPlanCompany(id));
                     p=phoneplanDAO.fetchPlanCompany(id);
+                    datos = company.get(cmbTipoServicios.getSelectionModel().getSelectedIndex());
+                    byte bi[] = null;
+                    try {
+                        bi=datos.getIs().getBytes(1, (int) datos.getIs().length());
+                        Image image=new Image(new ByteArrayInputStream(bi));
+                        lblImagen.setImage(image);
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
                     break;
                 case "Pagos":
             }
         });
 
-        tabla.setOnMouseClicked(data);
         btnAceptar.setOnAction(Aceptar);
         textNumeReferencia.setOnKeyPressed(info);
     }
@@ -233,20 +245,10 @@ public class ServicioController implements Initializable {
         }
     };
 
-    EventHandler<MouseEvent> data=new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent event) {
-            if (direccion.equals("Hogar")){
-                company_name=tablaHomeService.get(tabla.getSelectionModel().getSelectedIndex()).getName();
-                img=new Image("/Pictures/Company/"+company_name+".png");
-                lblImagen.setImage(img);
-                lblImagen.setFitHeight(300);
-                lblImagen.setFitHeight(150);
-            }
-        }
-    };
-
     public void setdestino(String direccion){
         this.direccion=direccion;
+    }
+    public void setUser(User user){
+        this.user=user;
     }
 }
