@@ -53,7 +53,7 @@ public class Controller implements Initializable {
 
     public void valiUsuario(ActionEvent event){
         if(existeUsuario())
-            mostMenu(event);
+            mostMenu(event, user);
         else
             lblContIncorrecta.setVisible(true);
     }
@@ -66,11 +66,12 @@ public class Controller implements Initializable {
         return result;
     }
 
-    public void mostMenu(ActionEvent event){
+    public void mostMenu(ActionEvent event, User user){
             menuStage.setTitle("Menu");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/FXML/Menu.fxml"));
 
             MenuController menuController = new MenuController();
+            menuController.setUser(user);
             cargar(loader, menuController, event);
     }
 

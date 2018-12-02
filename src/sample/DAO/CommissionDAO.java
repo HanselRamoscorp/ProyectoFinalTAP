@@ -1,11 +1,9 @@
 package sample.DAO;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -50,7 +48,7 @@ public class CommissionDAO {
     public ObservableList<sample.Modelos.Commission> fetchAll() {
         ObservableList<sample.Modelos.Commission> Commission = FXCollections.observableArrayList();
         try {
-            String query = "SELECT * FROM transaction";
+            String query = "SELECT * FROM commission";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             sample.Modelos.Commission p = null;
@@ -90,6 +88,26 @@ public class CommissionDAO {
         }
         return e;
     }
+
+    public Boolean update(int id_commission, int id_company) {
+        try {
+            String query = "update company c inner join commission c2 on c.id_commission = c2.id_commission" +
+                    " set c.id_commission=?" +
+                    " where c.id_company=?";
+            System.out.println(query + "updating....");
+            PreparedStatement st =  conn.prepareStatement(query);
+
+            st.setInt(1, id_commission);
+            st.setInt(2, id_company);
+            st.execute();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
+        return false;
+    }
 /*
     public Boolean delete(int trans_id) {
         try {
@@ -117,30 +135,6 @@ public class CommissionDAO {
             st.setString(5, String.valueOf(customer.getType()));
             st.execute();
             //data.add(customer);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
-
-        return false;
-    }
-
-    public Boolean update(sample.Modelos.Commission customer) {
-        try {
-            String query = "update customer "
-                    + " set category = ?, description = ?, date_created = ?, amount = ?, type = ?"
-                    + " where id=?";
-            System.out.println(query + "updating....");
-            PreparedStatement st =  conn.prepareStatement(query);
-
-            st.setString(1, customer.getCategory());
-            st.setString(2, customer.getDescription());
-            st.setDate(  3, customer.getDate_created());
-            st.setDouble(4, customer.getAmount());
-            st.setString(5, String.valueOf(customer.getType()));
-            st.setInt(6, customer.getId());
-            st.execute();
             return true;
         } catch (Exception e) {
             e.printStackTrace();

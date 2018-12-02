@@ -51,13 +51,13 @@ public class PlanHSDAO {
     public ObservableList<sample.Modelos.PlanHS> fetchAll() {
         ObservableList<sample.Modelos.PlanHS> PlanHS = FXCollections.observableArrayList();
         try {
-            String query = "SELECT * FROM transaction";
+            String query = "SELECT * FROM planhs";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             sample.Modelos.PlanHS p = null;
             while(rs.next()) {
                 p = new sample.Modelos.PlanHS(
-                        rs.getInt("id_plan"),
+                        rs.getInt("id_planHS"),
                         rs.getInt("quantity")
                 );
                 PlanHS.add(p);
@@ -76,12 +76,12 @@ public class PlanHSDAO {
         ResultSet rs = null;
         sample.Modelos.PlanHS e = null;
         try {
-            String query = "SELECT * FROM planshs where id = " + trans_id;
+            String query = "SELECT * FROM planhs where id_planHS = " + trans_id;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
             if (rs.first()){
                 e = new sample.Modelos.PlanHS(
-                        rs.getInt("id_plan"),
+                        rs.getInt("id_planHS"),
                         rs.getInt("quantity")
                 );
             }

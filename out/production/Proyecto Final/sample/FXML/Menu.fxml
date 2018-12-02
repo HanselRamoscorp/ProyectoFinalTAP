@@ -9,7 +9,8 @@
 <GridPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             prefHeight="400.0" prefWidth="600.0"
-            alignment="CENTER"              >
+            alignment="CENTER"
+            vgap="40">
     <Button fx:id="btnServHogar" text="Servicios del Hogar" contentDisplay="TOP" GridPane.columnIndex="1" GridPane.rowIndex="1">         <!--- Boton Pago de Servicio domestico -->
         <graphic>
             <MaterialIconView glyphName="LIVE_TV" glyphSize="200" fill= "azure"/>
@@ -43,6 +44,10 @@
         </graphic>
     </Button>
 
-
+    <Button fx:id="btnModificar" text="Modificar Servicios" contentDisplay="LEFT"  GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="4">         <!--- Boton Modificar servicios -->
+        <graphic>
+            <FontAwesomeIconView glyphName="EDIT" glyphSize="50" strokeWidth="150" fill= "azure"/>
+        </graphic>
+    </Button>
 
 </GridPane>

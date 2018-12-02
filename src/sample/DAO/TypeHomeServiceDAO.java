@@ -74,13 +74,15 @@ public class TypeHomeServiceDAO {
         ResultSet rs = null;
         sample.Modelos.TypeHomeService e = null;
         try {
-            String query = "SELECT * FROM typehomeservice where id = " + trans_id;
+            String query = "SELECT * FROM typehomeservice where id_TypeHS = " + trans_id;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
-            e = new sample.Modelos.TypeHomeService(
-                    rs.getInt("id_TypeHS"),
-                    rs.getString("type")
-            );
+            if (rs.next()){
+                e = new sample.Modelos.TypeHomeService(
+                        rs.getInt("id_TypeHS"),
+                        rs.getString("type")
+                );
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");

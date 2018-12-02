@@ -21,9 +21,6 @@
         <columns>
             <TableColumn editable="false" fx:id="clmCantidad" style="-fx-font-size: 20" prefWidth="475"/>
         </columns>
-        <columns>
-            <TableColumn editable="false" visible="false" fx:id="clmOtros" style="-fx-font-size: 20" prefWidth="237.5"/>
-        </columns>
     </TableView>
     <TextField fx:id="textComision"       text="Comision"             style="-fx-font-size: 20" prefWidth="500" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="60"/>
     <TextField fx:id="textPago"           text="Pago"                 style="-fx-font-size: 20" prefWidth="500" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="190"/>
