@@ -63,6 +63,7 @@ public class ModificarServicioController implements Initializable {
     List<Phoneplan> phoneplans=new ArrayList<>();
     ObservableList<TablaHomeService> HomeService = FXCollections.observableArrayList();
     ObservableList<TablaModificar> e = FXCollections.observableArrayList();
+    Company comp=null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -225,20 +226,47 @@ public class ModificarServicioController implements Initializable {
         public void handle(ActionEvent event) {
             if (typeCompanyes.get(0).getTypecompany().equals(cmbTipe.getSelectionModel().getSelectedItem())){
                 //Agrega las compañias de recargas
+                int a=cmbTipoServicios.getItems().size();
+                if (a!=0){
+                    for (int i = a; i > 0; i--) {
+                        cmbTipoServicios.getItems().remove(i-1);
+                    }
+                }
+                for (int i = 0; i < typeHomeServices.size(); i++) {
+                    cmbTipoServicios.getItems().add(typeHomeServices.get(i).getType());
+                }
                 cargarTabla1("Recharge");
                 tabla.setVisible(false);
+                clmCanttidad.setVisible(false);
+                clmPorcentaje.setVisible(false);
+                clmCompania.setPrefWidth(720);
+                tabla2.setPrefWidth(720);
+                textName.setVisible(false);
+                cmbComission.setVisible(false);
+                cmbTipeService.setVisible(false);
             }else{
                 if (typeCompanyes.get(1).getTypecompany().equals(cmbTipe.getSelectionModel().getSelectedItem())){
                     //Agrega los tipo de servicio del HomeService
                     tabla.setVisible(true);
-                    if(cmbTipoServicios.getItems().size()==0){
-                        typeHomeServices=typeHomeServiceDAO.findAll();
-                        cmbTipoServicios.setPromptText("Sevicios del Hogar");
-                        cmbTipeService.setPromptText("Tipo de sevicios");
-                        for (int i = 0; i < typeHomeServices.size(); i++) {
-                            cmbTipoServicios.getItems().add(typeHomeServices.get(i).getType());
-                            cmbTipeService.getItems().add(typeHomeServices.get(i).getType());
+                    clmCanttidad.setVisible(true);
+                    clmPorcentaje.setVisible(true);
+                    clmCompania.setPrefWidth(158);
+                    tabla2.setPrefWidth(500);
+                    textName.setVisible(true);
+                    cmbComission.setVisible(true);
+                    cmbTipeService.setVisible(true);
+
+                    typeHomeServices=typeHomeServiceDAO.findAll();
+                    cmbTipoServicios.setPromptText("Sevicios del Hogar");
+                    cmbTipeService.setPromptText("Tipo de sevicios");
+                    int a=cmbTipoServicios.getItems().size();
+                    if (a!=0){
+                        for (int i = a; i > 0; i--) {
+                            cmbTipoServicios.getItems().remove(i-1);
                         }
+                    }
+                    for (int i = 0; i < typeHomeServices.size(); i++) {
+                        cmbTipoServicios.getItems().add(typeHomeServices.get(i).getType());
                     }
                 }
             }
@@ -270,19 +298,38 @@ public class ModificarServicioController implements Initializable {
                     }
                     break;
                 case "Recharge":
-                    for (int i = 0; i < companies.size(); i++) {
-                        if (companies.get(i).getName().equals(cmbTipoServicios.getSelectionModel().getSelectedItem())){
-                            id=companies.get(i).getId_company();
-                            break;
+                    if(event.getSource().equals(cmbTipoServicios)){
+                        for (int i = 0; i < companies.size(); i++) {
+                            if (companies.get(i).getName().equals(cmbTipoServicios.getSelectionModel().getSelectedItem())){
+                                id=companies.get(i).getId_company();
+                                break;
+                            }
+                        }
+                        clmCompania.setCellValueFactory(new PropertyValueFactory<Phoneplan, String>("quantity"));
+                        tabla2.setItems(phoneplanDAO.fetchPlanCompany(id));
+                        phoneplans=phoneplanDAO.fetchPlanCompany(id);
+                        int a=cmbCantidadPlan.getItems().size();
+                        if (a!=0){
+                            for (int i = a; i > 0; i--) {
+                                cmbCantidadPlan.getItems().remove(i-1);
+                            }
+                        }
+                        for (int i = 0; i < phoneplans.size(); i++) {
+                            cmbCantidadPlan.getItems().add(phoneplans.get(i).getQuantity());
+                        }
+                        //Imagen
+                        try {
+                            comp=companyDAO.fetch(id);
+                            bi = comp.getIs().getBytes(1, (int) comp.getIs().length());
+                            Image image = new Image(new ByteArrayInputStream(bi));
+                            lblImagen.setImage(image);
+                            lblImagen.setFitWidth(460);
+                            lblImagen.setFitHeight(320);
+                            lblImagen.setPreserveRatio(true);
+                        }catch (SQLException e1) {
+                            e1.printStackTrace();
                         }
                     }
-                    clmPorcentaje.setVisible(false);
-                    clmCanttidad.setVisible(false);
-                    clmCompania.setPrefWidth(715);
-                    tabla2.setPrefWidth(720);
-                    clmCompania.setCellValueFactory(new PropertyValueFactory<Phoneplan, String>("quantity"));
-                    tabla2.setItems(phoneplanDAO.fetchPlanCompany(id));
-                    phoneplans=phoneplanDAO.fetchPlanCompany(id);
                     break;
             }
         }
@@ -330,20 +377,27 @@ public class ModificarServicioController implements Initializable {
     final EventHandler<MouseEvent> info = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
-            datos = e.get(tabla2.getSelectionModel().getSelectedIndex());
-            try {
-                bi=datos.getId_company().getIs().getBytes(1, (int) datos.getId_company().getIs().length());
-                Image image=new Image(new ByteArrayInputStream(bi));
-                lblImagen.setImage(image);
-                lblImagen.setFitWidth(460);
-                lblImagen.setFitHeight(320);
-                lblImagen.setPreserveRatio(true);
-                textName.setText(e.get(tabla2.getSelectionModel().getSelectedIndex()).getName());
-                cmbCantidadPlan.getSelectionModel().select(e.get(tabla2.getSelectionModel().getSelectedIndex()).getCantidad());
-                cmbComission.getSelectionModel().select(e.get(tabla2.getSelectionModel().getSelectedIndex()).getId_commission().getPercentage());
-                cmbTipeService.getSelectionModel().select(e.get(tabla2.getSelectionModel().getSelectedIndex()).getId_homeservice().getId_TypeHS().getType());
-            } catch (SQLException e1) {
-                e1.printStackTrace();
+            switch(cmbTipe.getSelectionModel().getSelectedItem().toString()){
+                case "Home Service":
+                    datos = e.get(tabla2.getSelectionModel().getSelectedIndex());
+                    try {
+                        bi=datos.getId_company().getIs().getBytes(1, (int) datos.getId_company().getIs().length());
+                        Image image=new Image(new ByteArrayInputStream(bi));
+                        lblImagen.setImage(image);
+                        lblImagen.setFitWidth(460);
+                        lblImagen.setFitHeight(320);
+                        lblImagen.setPreserveRatio(true);
+                        textName.setText(e.get(tabla2.getSelectionModel().getSelectedIndex()).getName());
+                        cmbCantidadPlan.getSelectionModel().select(e.get(tabla2.getSelectionModel().getSelectedIndex()).getCantidad());
+                        cmbComission.getSelectionModel().select(e.get(tabla2.getSelectionModel().getSelectedIndex()).getId_commission().getPercentage());
+                        cmbTipeService.getSelectionModel().select(e.get(tabla2.getSelectionModel().getSelectedIndex()).getId_homeservice().getId_TypeHS().getType());
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
+                    break;
+                case "Recharge":
+                    cmbCantidadPlan.getSelectionModel().select(String.valueOf(phoneplans.get(tabla2.getSelectionModel().getSelectedIndex()).getQuantity()));
+                    break;
             }
         }
     };

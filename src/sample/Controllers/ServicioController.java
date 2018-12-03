@@ -209,6 +209,7 @@ public class ServicioController implements Initializable {
                         }
                     }
                     clmOtros.setVisible(false);
+                    clmCantidad.setPrefWidth(600);
                     clmCantidad.setCellValueFactory(new PropertyValueFactory<TablaHomeService, String>("name"));
                     tabla.setItems(homeServiceDAO.fetch2(id_type));
                     tablaHomeService=homeServiceDAO.fetch2(id_type);

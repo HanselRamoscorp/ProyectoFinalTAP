@@ -11,7 +11,7 @@
     <Label text="Contraseña:" style="-fx-font-size: 20" AnchorPane.leftAnchor="650" AnchorPane.topAnchor="350"/>
     <Label text="Contraseña incorrecta" style="-fx-font-size: 15" textFill="brown" fx:id="lblContIncorrecta" AnchorPane.leftAnchor="855" AnchorPane.topAnchor="375"/>
 
-    <TextField fx:id="textNombre" text="edgar9722" AnchorPane.leftAnchor="850" AnchorPane.topAnchor="300"/>
+    <TextField fx:id="textNombre" text="Hansel" AnchorPane.leftAnchor="850" AnchorPane.topAnchor="300"/>
     <PasswordField fx:id="textContrasena" text="1234" AnchorPane.leftAnchor="850" AnchorPane.topAnchor="350"/>
 
     <Button fx:id="btnInicSesion" style="-fx-font-size: 20" text="Iniciar sesion" AnchorPane.leftAnchor="860" AnchorPane.topAnchor="400"/>

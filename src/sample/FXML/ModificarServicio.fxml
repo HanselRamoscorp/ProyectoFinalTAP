@@ -22,7 +22,7 @@
             <TableColumn fx:id="clmCompañia"  text="Empresa" editable="false" style="-fx-font-size: 20" prefWidth="175"/>
         </columns>
     </TableView>
-    <TableView fx:id="tabla2" style="-fx-font-size: 20" prefWidth="500" prefHeight="550" AnchorPane.rightAnchor="580" AnchorPane.topAnchor="110">
+    <TableView fx:id="tabla2" style="-fx-font-size: 20" prefWidth="500" prefHeight="550" AnchorPane.rightAnchor="567" AnchorPane.topAnchor="110">
         <columns>
             <TableColumn text="Compañia"   editable="false" fx:id="clmCompania"   style="-fx-font-size: 20" prefWidth="158"/>
             <TableColumn text="Porcentaje" editable="false" fx:id="clmPorcentaje" style="-fx-font-size: 20" prefWidth="158"/>
