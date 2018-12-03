@@ -18,7 +18,9 @@ import sample.DAO.*;
 import sample.Modelos.*;
 
 import java.awt.image.BufferStrategy;
+import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -29,6 +31,7 @@ public class ServicioController implements Initializable {
     String direccion, company_name, referencia;
     int cantPagar=0, pago, id=0, id2=0,id3=0,idbus=0, idc=0;
     String telefono="",nombre;
+    byte bi[] = null;
 
     @FXML ComboBox<String> combobox, combobox2,combobox3;
     @FXML Button btnRegresar, btnAceptar,acceptarbus;
@@ -62,6 +65,7 @@ public class ServicioController implements Initializable {
     List<City> city =new ArrayList<>();
     List<TypeHomeService> typeHomeServices=new ArrayList<>();
     quantity_telephone e=null;
+    Company company_select=null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -82,6 +86,8 @@ public class ServicioController implements Initializable {
                 TF4.setText("Telefono");
                 TF5.setText("Confirmar telefono");
                 clmCantidad.setText("Compañia");
+                clmCantidad.setPrefWidth(595);
+                company=companyDAO.findAll(2);
                 typeHomeServices=typeHomeServiceDAO.findAll();
                 combobox.setPromptText("Sevicios del Hogar");
                 for (int i = 0; i < typeHomeServices.size(); i++) {
@@ -100,7 +106,7 @@ public class ServicioController implements Initializable {
                 TF4.setText("Telefono");
                 TF5.setText("Confirmar Telefono");
                 clmCantidad.setText("Cantidad");
-                company=companyDAO.findAll();
+                company=companyDAO.findAll(1);
                 combobox.setPromptText("Compañia");
                 for (int i = 0; i < company.size(); i++) {
                     combobox.getItems().add(company.get(i).getName());
@@ -202,6 +208,7 @@ public class ServicioController implements Initializable {
                             break;
                         }
                     }
+                    clmOtros.setVisible(false);
                     clmCantidad.setCellValueFactory(new PropertyValueFactory<TablaHomeService, String>("name"));
                     tabla.setItems(homeServiceDAO.fetch2(id_type));
                     tablaHomeService=homeServiceDAO.fetch2(id_type);
@@ -343,11 +350,24 @@ public class ServicioController implements Initializable {
         @Override
         public void handle(MouseEvent event) {
             if (direccion.equals("Hogar")){
-                company_name=tablaHomeService.get(tabla.getSelectionModel().getSelectedIndex()).getName();
-                img=new Image("/Pictures/Company/"+company_name+".png");
-                lblImagen.setImage(img);
-                lblImagen.setFitHeight(300);
-                lblImagen.setFitHeight(150);
+                try {
+                    for (int i = 0; i < company.size(); i++) {
+                        if (company.get(i).getName().equals(tablaHomeService.get(tabla.getSelectionModel().getSelectedIndex()).getName())){
+                            id=company.get(i).getId_company();
+                            break;
+                        }
+                    }
+                    company_select=companyDAO.fetch(id);
+                    bi= company_select.getIs().getBytes(1, (int) company_select.getIs().length());
+                    Image image=new Image(new ByteArrayInputStream(bi));
+                    lblImagen.setImage(image);
+                    lblImagen.setFitWidth(460);
+                    lblImagen.setFitHeight(320);
+                    lblImagen.setPreserveRatio(true);
+
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
     };

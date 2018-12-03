@@ -25,7 +25,7 @@ public class TypeCompanyDAO {
     public List<sample.Modelos.TypeCompany> findAll() {
         List<sample.Modelos.TypeCompany> TypeCompany = new ArrayList<sample.Modelos.TypeCompany>();
         try {
-            String query = "SELECT * FROM transaction";
+            String query = "SELECT * FROM typecompany";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             sample.Modelos.TypeCompany p = null;

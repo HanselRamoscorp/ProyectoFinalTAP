@@ -29,10 +29,10 @@ public class CompanyDAO {
         data.add(customer);
     }
 
-    public List<sample.Modelos.Company> findAll() {
+    public List<sample.Modelos.Company> findAll(int id_typecompany) {
         List<sample.Modelos.Company> Company = new ArrayList<sample.Modelos.Company>();
         try {
-            String query = "SELECT * FROM company where id_typecompany=1";
+            String query = "SELECT * FROM company where id_typecompany="+id_typecompany;
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             sample.Modelos.Company p = null;

@@ -55,6 +55,7 @@ public class MenuController implements Initializable {
 
             ServicioController servicioController = new ServicioController();
             servicioController.setdestino(direccion);
+            servicioController.setUser(user);
             controller.cargar(loader, servicioController, event);
         }
     };
