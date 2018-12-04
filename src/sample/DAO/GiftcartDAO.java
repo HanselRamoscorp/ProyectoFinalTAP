@@ -16,7 +16,7 @@ public class GiftcartDAO {
 
     public GiftcartDAO(Connection conn) { this.conn = conn; }
 
-
+GiftcartcreditDAO giftcartcreditDAO = new GiftcartcreditDAO(MySQL.getConnection());
 
     /*  public List<sample.Modelos.Giftcart> findAll() {
           List<sample.Modelos.Giftcart> Giftcart = new ArrayList<sample.Modelos.Giftcart>();
@@ -88,6 +88,32 @@ public class GiftcartDAO {
           return e;
       }
   */
+
+    public sample.Modelos.Giftcart fetch(int id){
+        ResultSet rs = null;
+        sample.Modelos.Giftcart e = null;
+        try {
+            String query = "select * "+
+                    " from giftcart"+
+                    " where id_giftcard = " + id;
+            Statement st = conn.createStatement();
+            rs = st.executeQuery(query);
+            if (rs.next()){
+                e = new sample.Modelos.Giftcart(
+                        rs.getInt("id_giftcard"),
+                        giftcartcreditDAO.fetch(rs.getInt("id_giftcartcredit")),
+                        rs.getString("pay_date")
+                );
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información...");
+        }
+        return e;
+    }
+
+
+
     public Boolean insert(int id) {
         try {
             String query = "insert into giftcart (id_giftcartcredit, pay_date)"
@@ -105,6 +131,24 @@ public class GiftcartDAO {
         return false;
     }
 
+
+    public int Count() {
+        ResultSet rs = null;
+        int e = 0;
+        try {
+            String query = "SELECT count(*) id FROM giftcard";
+            Statement st = conn.createStatement();
+            rs = st.executeQuery(query);
+            while(rs.next()){
+                e  = rs.getInt("id");
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información...");
+        }
+        return e;
+    }
 /*
     public Boolean delete(int trans_id) {
         try {

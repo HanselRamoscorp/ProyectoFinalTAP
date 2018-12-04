@@ -78,12 +78,12 @@ public class GiftcartcreditDAO {
         ResultSet rs = null;
         sample.Modelos.Giftcartcredit e = null;
         try {
-            String query = "SELECT * FROM Giftcartcredit where id_Giftcartcredit = " + id_Giftcartcredit;
+            String query = "SELECT * FROM giftcartcredit where id_giftcartcredit = " + id_Giftcartcredit;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
             if (rs.first()){
                 e = new sample.Modelos.Giftcartcredit(
-                        rs.getInt("id_Giftcartcredite"),
+                        rs.getInt("id_giftcartcredite"),
                         rs.getInt("quantity"),
                         companyDAO.fetch(rs.getInt("id_company"))
                 );

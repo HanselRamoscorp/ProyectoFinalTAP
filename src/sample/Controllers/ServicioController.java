@@ -37,7 +37,7 @@ public class ServicioController implements Initializable {
     Controller controller=new Controller();
     User user=null;
     String direccion, company_name, referencia;
-    int cantPagar=0, pago, id=0, id2=0,id3=0,idbus=0, idc=0,idbusTK=0 ;
+    int cantPagar=0, pago, id=0, id2=0,id3=0,idbus=0, idc=0,idbusTK=0, idr=0 ;
     String telefono="",nombre;
     byte bi[] = null;
 
@@ -76,6 +76,7 @@ public class ServicioController implements Initializable {
     quantity_telephone e=null;
     Company company_select=null;
     Busticket busTK;
+    Giftcart GC;
     Recharge recharge=null;
     public static final String ticket = "results/Tickets/ticket.pdf";
     @Override
@@ -332,12 +333,12 @@ public class ServicioController implements Initializable {
                         break;
                     case "Recargas":
                         if (TF4.getText().equals(TF5.getText())){
-                            idbus=rechargeDAO.count();
+                          idr=rechargeDAO.count();
                             telefono=TF4.getText();
                             cantPagar=p.get(tabla.getSelectionModel().getSelectedIndex()).getQuantity();
                             company_name=combobox.getSelectionModel().getSelectedItem();
                             id=phoneplanDAO.getId_phoneplan(cantPagar,company_name);
-                            if (rechargeDAO.insert(idbus, telefono, id)){
+      /* CHECAR ESTO*/          if (rechargeDAO.insert(idr, telefono, id)){
                                 lblPago.setText("Recarga registrada");
                                 lblPago.setVisible(true);
                             }else{
@@ -348,7 +349,7 @@ public class ServicioController implements Initializable {
                             lblPago.setText("Los numero no coinciden");
                             lblPago.setVisible(true);
                         }
-                        recharge=rechargeDAO.fetch(idbus);
+                        recharge=rechargeDAO.fetch(idr);
                         ticketimp(event, recharge);
                         break;
                     case "Autobus":
@@ -366,8 +367,11 @@ public class ServicioController implements Initializable {
                     case "Pagos":
                        idc = c.get(tabla.getSelectionModel().getSelectedIndex()).getId_giftcartcredit();
                        giftcartDAO.insert(idc);
+                       idc = giftcartDAO.Count();
+                       GC = giftcartDAO.fetch(idc);
                         lblPago.setText("Pago registrado");
                         lblPago.setVisible(true);
+                        ticketimp(event,GC);
 
                 }
             }catch (Exception e){
@@ -387,17 +391,20 @@ public class ServicioController implements Initializable {
                     file.getParentFile().mkdirs();
                     switch (direccion){
                         case "Hogar":
-                            //new Ticket()
+                           // new Ticket().createHomeService(ticket, recharge);
+                            Desktop.getDesktop().open(file);
                             break;
                         case "Recargas":
                             new Ticket().createRecharge(ticket, recharge);
                             Desktop.getDesktop().open(file);
                             break;
                         case "Autobus":
-                            new Ticket().createBUSTK(ticket,t);
+                            new Ticket().createBUSTK(ticket,busTK);
                             Desktop.getDesktop().open(file);
                             break;
                         case "Pagos":
+                            new Ticket().GiftCartTK(ticket, GC);
+                            Desktop.getDesktop().open(file);
                             break;
                     }
                 } catch (IOException e) {

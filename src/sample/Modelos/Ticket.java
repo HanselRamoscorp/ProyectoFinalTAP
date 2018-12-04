@@ -22,8 +22,8 @@ import java.io.IOException;
 public class Ticket {
     public static final String imagen = "src/Pictures/Fondos/linpay.png";
 
-    public void createBUSTK(String dest ,Object bTK) throws IOException {
-     Busticket  bustk= Busticket.class.cast(bTK);
+    public void createBUSTK(String dest ,Busticket bustk) throws IOException {
+
      String compañia = bustk.id_bus.id_linebus.id_company.name;
      int NoBoleto = bustk.id_busticket;
      String NomCliente = bustk.clientname;
@@ -57,7 +57,7 @@ public class Ticket {
         //DottedLine dottedLine = new DottedLine(1); Linea punteada
         DashedLine dashedLine = new DashedLine(1);
 
-        Text text1 = new Text("Ticket DE PAGO").setFont(font2).setFontSize(10).setBold();
+        Text text1 = new Text("Numero de Ticket" + bustk.id_busticket).setFont(font2).setFontSize(10).setBold();
         Paragraph p2 = new Paragraph().add(text1).add("\n\n");
         p2.setTextAlignment(TextAlignment.CENTER);
 
@@ -109,7 +109,7 @@ public class Ticket {
         //DottedLine dottedLine = new DottedLine(1); Linea punteada
         DashedLine dashedLine = new DashedLine(1);
 
-        Text text1 = new Text("Ticket DE PAGO").setFont(font2).setFontSize(10).setBold();
+        Text text1 = new Text("Numero de Ticket: "+bTK.id_recharge).setFont(font2).setFontSize(10).setBold();
         Paragraph p2 = new Paragraph().add(text1).add("\n\n");
         p2.setTextAlignment(TextAlignment.CENTER);
 
@@ -125,7 +125,9 @@ public class Ticket {
         document.close();
     }
 
-    /*public void createHomeService(String dest, HomeService bTK) throws IOException {
+
+
+    public void GiftCartTK(String dest, Giftcart gTK) throws IOException {
         PdfWriter writer = new PdfWriter(dest);
         PdfDocument pdf = new PdfDocument(writer);
         Document document = new Document(pdf);
@@ -142,13 +144,50 @@ public class Ticket {
         //DottedLine dottedLine = new DottedLine(1); Linea punteada
         DashedLine dashedLine = new DashedLine(1);
 
-        Text text1 = new Text("Ticket DE PAGO").setFont(font2).setFontSize(10).setBold();
+        Text text1 = new Text("Numero de Ticket: "+ gTK.getId_giftcart()).setFont(font2).setFontSize(10).setBold();
         Paragraph p2 = new Paragraph().add(text1).add("\n\n");
         p2.setTextAlignment(TextAlignment.CENTER);
 
-        Text text2 = new Text("Compañia : "+ bTK.getId_phoneplan().id_company.getName()).setFont(font2).setFontSize(10);
-        Text text3 = new Text("Numero de telefono: "+ bTK.getPhonenumber()).setFont(font2).setFontSize(10);
-        Text text4 = new Text("Recarga de "+ bTK.getId_phoneplan().getQuantity()).setFont(font2).setFontSize(10);
+        Text text2 = new Text("Compañia : "+ gTK.getId_giftcartcredit().id_company.name).setFont(font2).setFontSize(10);
+        Text text4 = new Text("Credito de: "+ gTK.getId_giftcartcredit().credit).setFont(font2).setFontSize(10);
+        Paragraph p3 = new Paragraph().add(text2).add("\n").add(text4).add(new LineSeparator(dashedLine));
+        p3.setTextAlignment(TextAlignment.LEFT);
+
+        Image telmex = new Image(ImageDataFactory.create(imagen));
+        document.add(telmex).add(new Paragraph("\n")).add(p1).add(new LineSeparator(dashedLine)).add(p2).add(p3);
+
+        document.close();
+    }
+
+
+
+    public void createHomeService(String dest, PaymentHS hTK) throws IOException {
+        PdfWriter writer = new PdfWriter(dest);
+        PdfDocument pdf = new PdfDocument(writer);
+        Document document = new Document(pdf);
+        document.setMargins(50, 180, 50, 180);
+        PdfFont font1 = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+        PdfFont font2 = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+
+        Text title = new Text("Sistema de pagos de servicios").setFont(font1).setFontSize(15);
+        Text subtitle = new Text("\n Av. García Cubas 1200 \n Esquina Ignacio Borunda \n Celaya, Gto. México \nCENTRO DE ATENCION").setFont(font2).setFontSize(10);
+
+        Paragraph p1 = new Paragraph().add(title).add("\n").add(subtitle);
+        p1.setTextAlignment(TextAlignment.CENTER);
+
+        //DottedLine dottedLine = new DottedLine(1); Linea punteada
+        DashedLine dashedLine = new DashedLine(1);
+
+        Text text1 = new Text("Numero de Ticket"+ hTK.id_paymentHS ).setFont(font2).setFontSize(10).setBold();
+        Paragraph p2 = new Paragraph().add(text1).add("\n\n");
+        p2.setTextAlignment(TextAlignment.CENTER);
+
+        Text text2 = new Text("Compañia : "+ hTK.id_HomeService.id_company.name).setFont(font2).setFontSize(10);
+        Text text3 = new Text("Tipo de servicio: "+ hTK.id_HomeService.id_TypeHS.type ).setFont(font2).setFontSize(10);
+        Text text4 = new Text("PAGADO "+ hTK.getPay_amount()).setFont(font2).setFontSize(10);
+        Text text5 = new Text("Fecha de pago"+ hTK.getPay_date()).setFont(font2).setFontSize(10);
+
+
         Paragraph p3 = new Paragraph().add(text2).add("\n").add(text3).add("\n").add(text4).add(new LineSeparator(dashedLine));
         p3.setTextAlignment(TextAlignment.LEFT);
 
@@ -156,5 +195,5 @@ public class Ticket {
         document.add(telmex).add(new Paragraph("\n")).add(p1).add(new LineSeparator(dashedLine)).add(p2).add(p3);
 
         document.close();
-    }*/
+    }
 }
