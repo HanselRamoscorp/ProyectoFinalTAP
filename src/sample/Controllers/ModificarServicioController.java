@@ -61,6 +61,7 @@ public class ModificarServicioController implements Initializable {
     List<Company> companies=new ArrayList<>();
     List<Commission> commissions=new ArrayList<>();
     List<Phoneplan> phoneplans=new ArrayList<>();
+    List<Phoneplan> phoneplans2=new ArrayList<>();
     ObservableList<TablaHomeService> HomeService = FXCollections.observableArrayList();
     ObservableList<TablaModificar> e = FXCollections.observableArrayList();
     Company comp=null;
@@ -118,25 +119,16 @@ public class ModificarServicioController implements Initializable {
                 case "Home Service":
                     if (!textName.getText().equals(e.get(tabla2.getSelectionModel().getSelectedIndex()).getName()))
                         cambNombre="Si";
-                    if(cambNombre.equals("Si")){
+                    if(cambNombre.equals("Si"))
                         actuNombre(a);
-                    }else{
-                        if(cambImagen.equals("Si")){
-                            actuImagen(a);
-                        }else{
-                            if (cambComision.equals("Si")){
-                                actuComision(a);
-                            }else{
-                                if (cambPlan.equals("Si")){
-                                    actuPlan(a);
-                                }else{
-                                    if (cambTipoServicio.equals("Si")){
-                                        actuTipeService(a);
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    if(cambImagen.equals("Si"))
+                        actuImagen(a);
+                    if (cambComision.equals("Si"))
+                        actuComision(a);
+                    if (cambPlan.equals("Si"))
+                        actuPlan(a);
+                    if (cambTipoServicio.equals("Si"))
+                        actuTipeService(a);
                     if(!cambTipoServicio.equals("")||!cambPlan.equals("")||!cambComision.equals("")||!cambImagen.equals(""))
                         cargarTabla2();
                     break;
@@ -307,7 +299,8 @@ public class ModificarServicioController implements Initializable {
                         }
                         clmCompania.setCellValueFactory(new PropertyValueFactory<Phoneplan, String>("quantity"));
                         tabla2.setItems(phoneplanDAO.fetchPlanCompany(id));
-                        phoneplans=phoneplanDAO.fetchPlanCompany(id);
+                        phoneplans2=phoneplanDAO.fetchPlanCompany(id);
+                        phoneplans=phoneplanDAO.findAllSinRepetidos();
                         int a=cmbCantidadPlan.getItems().size();
                         if (a!=0){
                             for (int i = a; i > 0; i--) {
@@ -320,12 +313,16 @@ public class ModificarServicioController implements Initializable {
                         //Imagen
                         try {
                             comp=companyDAO.fetch(id);
-                            bi = comp.getIs().getBytes(1, (int) comp.getIs().length());
-                            Image image = new Image(new ByteArrayInputStream(bi));
-                            lblImagen.setImage(image);
-                            lblImagen.setFitWidth(460);
-                            lblImagen.setFitHeight(320);
-                            lblImagen.setPreserveRatio(true);
+                            if(comp.getIs()==null){
+                                lblImagen.setVisible(false);
+                            }else {
+                                bi = comp.getIs().getBytes(1, (int) comp.getIs().length());
+                                Image image = new Image(new ByteArrayInputStream(bi));
+                                lblImagen.setImage(image);
+                                lblImagen.setFitWidth(460);
+                                lblImagen.setFitHeight(320);
+                                lblImagen.setPreserveRatio(true);
+                            }
                         }catch (SQLException e1) {
                             e1.printStackTrace();
                         }
@@ -381,12 +378,16 @@ public class ModificarServicioController implements Initializable {
                 case "Home Service":
                     datos = e.get(tabla2.getSelectionModel().getSelectedIndex());
                     try {
-                        bi=datos.getId_company().getIs().getBytes(1, (int) datos.getId_company().getIs().length());
-                        Image image=new Image(new ByteArrayInputStream(bi));
-                        lblImagen.setImage(image);
-                        lblImagen.setFitWidth(460);
-                        lblImagen.setFitHeight(320);
-                        lblImagen.setPreserveRatio(true);
+                        if(datos.getId_company().getIs()==null){
+                            lblImagen.setVisible(false);
+                        }else {
+                            bi=datos.getId_company().getIs().getBytes(1, (int) datos.getId_company().getIs().length());
+                            Image image = new Image(new ByteArrayInputStream(bi));
+                            lblImagen.setImage(image);
+                            lblImagen.setFitWidth(460);
+                            lblImagen.setFitHeight(320);
+                            lblImagen.setPreserveRatio(true);
+                        }
                         textName.setText(e.get(tabla2.getSelectionModel().getSelectedIndex()).getName());
                         cmbCantidadPlan.getSelectionModel().select(e.get(tabla2.getSelectionModel().getSelectedIndex()).getCantidad());
                         cmbComission.getSelectionModel().select(e.get(tabla2.getSelectionModel().getSelectedIndex()).getId_commission().getPercentage());
@@ -396,7 +397,7 @@ public class ModificarServicioController implements Initializable {
                     }
                     break;
                 case "Recharge":
-                    cmbCantidadPlan.getSelectionModel().select(String.valueOf(phoneplans.get(tabla2.getSelectionModel().getSelectedIndex()).getQuantity()));
+                    cmbCantidadPlan.getSelectionModel().select(String.valueOf(phoneplans2.get(tabla2.getSelectionModel().getSelectedIndex()).getQuantity()));
                     break;
             }
         }

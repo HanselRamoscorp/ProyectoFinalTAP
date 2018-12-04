@@ -116,6 +116,7 @@ public class ServicioController implements Initializable {
                 TF4.setText("Telefono");
                 TF5.setText("Confirmar Telefono");
                 clmCantidad.setText("Cantidad");
+                clmCantidad.setPrefWidth(595);
                 company=companyDAO.findAll(1);
                 combobox.setPromptText("Compañia");
                 for (int i = 0; i < company.size(); i++) {
@@ -137,16 +138,12 @@ public class ServicioController implements Initializable {
 
                 }
                 btnAceptar.setText("PAGAR");
-
-
-
-
                 break;
             case "Autobus":
                 company=companyDAO.fetchAll(3);
                 for (int i = 0; i < company.size(); i++) {
-                combobox.getItems().add(company.get(i).getName());
-            }
+                    combobox.getItems().add(company.get(i).getName());
+                }
                 city   =cityDAO.fetchAll();
                 for (int i = 0; i < city.size(); i++) {
                     combobox2.getItems().add(city.get(i).getCity());
@@ -227,10 +224,33 @@ public class ServicioController implements Initializable {
                     tablaHomeService=homeServiceDAO.fetch2(id_type);
                     break;
                 case "Recargas":
-
+                    clmOtros.setVisible(false);
+                    clmCantidad.setPrefWidth(600);
+                    id=0;
+                    for (int i = 0; i < company.size(); i++) {
+                        if (company.get(i).getName().equals(combobox.getSelectionModel().getSelectedItem())){
+                            id=company.get(i).getId_company();
+                            break;
+                        }
+                    }
                     clmCantidad.setCellValueFactory(new PropertyValueFactory<Phoneplan, String>("quantity"));
                     tabla.setItems(phoneplanDAO.fetchPlanCompany(id));
                     p=phoneplanDAO.fetchPlanCompany(id);
+                    company_select=companyDAO.fetch(id);
+                    if(company_select.getIs()==null){
+                        lblImagen.setVisible(false);
+                    }else {
+                        try {
+                            bi= company_select.getIs().getBytes(1, (int) company_select.getIs().length());
+                        } catch (SQLException e1) {
+                            e1.printStackTrace();
+                        }
+                        Image image=new Image(new ByteArrayInputStream(bi));
+                        lblImagen.setImage(image);
+                        lblImagen.setFitWidth(460);
+                        lblImagen.setFitHeight(320);
+                        lblImagen.setPreserveRatio(true);
+                    }
                     break;
 
                 case "Pagos":
@@ -398,13 +418,16 @@ public class ServicioController implements Initializable {
                         }
                     }
                     company_select=companyDAO.fetch(id);
-                    bi= company_select.getIs().getBytes(1, (int) company_select.getIs().length());
-                    Image image=new Image(new ByteArrayInputStream(bi));
-                    lblImagen.setImage(image);
-                    lblImagen.setFitWidth(460);
-                    lblImagen.setFitHeight(320);
-                    lblImagen.setPreserveRatio(true);
-
+                    if(company_select.getIs()==null){
+                        lblImagen.setVisible(false);
+                    }else {
+                        bi= company_select.getIs().getBytes(1, (int) company_select.getIs().length());
+                        Image image=new Image(new ByteArrayInputStream(bi));
+                        lblImagen.setImage(image);
+                        lblImagen.setFitWidth(460);
+                        lblImagen.setFitHeight(320);
+                        lblImagen.setPreserveRatio(true);
+                    }
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }

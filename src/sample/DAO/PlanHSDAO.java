@@ -1,11 +1,9 @@
 package sample.DAO;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import sample.Modelos.quantity_telephone;
@@ -26,13 +24,13 @@ public class PlanHSDAO {
     public List<sample.Modelos.PlanHS> findAll() {
         List<sample.Modelos.PlanHS> PlanHS = new ArrayList<sample.Modelos.PlanHS>();
         try {
-            String query = "SELECT * FROM transaction";
+            String query = "SELECT * FROM planhs";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             sample.Modelos.PlanHS p = null;
             while(rs.next()) {
                 p = new sample.Modelos.PlanHS(
-                        rs.getInt("id_plan"),
+                        rs.getInt("id_planHS"),
                         rs.getInt("quantity")
                 );
                 PlanHS.add(p);
@@ -118,6 +116,7 @@ public class PlanHSDAO {
         }
         return e;
     }
+
 /*
     public Boolean delete(int trans_id) {
         try {

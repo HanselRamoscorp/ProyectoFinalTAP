@@ -83,6 +83,34 @@ public class CompanyDAO {
         return Company;
     }
 
+    public ObservableList<TablaConsultar> fetchAllConsultar(int id_typecompany) {
+        ObservableList<TablaConsultar> tablaConsultars = FXCollections.observableArrayList();
+        try {
+            String query = "select p.quantity, c2.percentage" +
+                    " from company c inner join commission c2 on c.id_commission = c2.id_commission" +
+                    "               inner join homeservice h on c.id_company = h.id_company" +
+                    "               inner join planhs p on h.id_planHS = p.id_planHS" +
+                    " where c.id_company= " + id_typecompany;
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            TablaConsultar p = null;
+            while(rs.next()) {
+                p = new TablaConsultar(
+                        rs.getInt("percentage"),
+                        rs.getInt("quantity")
+                );
+                tablaConsultars.add(p);
+            }
+            rs.close();
+            st.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información...");
+        }
+        return tablaConsultars;
+    }
+
     public sample.Modelos.Company fetch(int id_company) {
         ResultSet rs = null;
         sample.Modelos.Company e = null;
@@ -236,6 +264,81 @@ public class CompanyDAO {
         return false;
     }
 
+    public Boolean insertWhitImagen(InputStream image, File file, String name, int id_commission, int id_typecompany) {
+        try {
+            String query = "insert into company"
+                    + " (name, id_commission, id_typecompany, image)"
+                    + " values (?, ?, ?, ?)";
+            PreparedStatement st =  conn.prepareStatement(query);
+            st.setString(1, name);
+            st.setInt(2, id_commission);
+            st.setInt(3, id_typecompany);
+            st.setBinaryStream(4, (InputStream) image, (int) file.length());
+            st.execute();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
+        return false;
+    }
+
+    public Boolean insertHomeService(int id_typeHS,int id_company, int id_planHS) {
+        try {
+            String query = "insert into homeservice"
+                    + " (id_TypeHS, id_company, id_planHS)"
+                    + " values (?, ?, ?)";
+            PreparedStatement st =  conn.prepareStatement(query);
+            st.setInt(1, id_typeHS);
+            st.setInt(2, id_company);
+            st.setInt(3, id_planHS);
+            st.execute();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
+        return false;
+    }
+
+    public Boolean insertSN(String name, int id_commission, int id_typecompany) {
+        try {
+            String query = "insert into company"
+                    + " (name, id_commission, id_typecompany)"
+                    + " values (?, ?, ?)";
+            PreparedStatement st =  conn.prepareStatement(query);
+            st.setString(1, name);
+            st.setInt(2, id_commission);
+            st.setInt(3, id_typecompany);
+            st.execute();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
+        return false;
+    }
+
+    public int getId_Company(String name){
+        ResultSet rs = null;
+        int e=0;
+        try {
+            String query = "SELECT id_company FROM company where name='"+name+"'";
+            Statement st = conn.createStatement();
+            rs = st.executeQuery(query);
+            if (rs.next()){
+                e = rs.getInt("id_company");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información...");
+        }
+        return e;
+    }
+
 /*
     public Boolean delete(int trans_id) {
         try {
@@ -247,28 +350,6 @@ public class CompanyDAO {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return false;
-    }
-
-    public Boolean insert(sample.Modelos.Company customer) {
-        try {
-            String query = "insert into customer "
-                    + " (category, description, date_created, amount, type)"
-                    + " values (?, ?, ?, ?, ?)";
-            PreparedStatement st =  conn.prepareStatement(query);
-            st.setString(1, customer.getCategory());
-            st.setString(2, customer.getDescription());
-            st.setDate(  3, customer.getDate_created());
-            st.setDouble(4, customer.getAmount());
-            st.setString(5, String.valueOf(customer.getType()));
-            st.execute();
-            //data.add(customer);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
-
         return false;
     }
 */

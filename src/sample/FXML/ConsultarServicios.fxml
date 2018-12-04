@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
+<?import javafx.scene.image.ImageView?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefHeight="400.0" prefWidth="600.0">
+    <Button fx:id="btnRegresar" prefHeight="30" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0">         <!--- Boton Pago de Servicio domestico -->
+        <graphic>
+            <MaterialIconView glyphName="KEYBOARD_ARROW_LEFT" glyphSize="15" fill="azure"/>
+        </graphic>
+    </Button>
+
+    <ComboBox fx:id="cmbTypeCompany" style="-fx-font-size: 20" prefWidth="610" prefHeight="40" AnchorPane.leftAnchor="80" AnchorPane.topAnchor="10"/>
+
+    <TableView fx:id="tablaCompany" style="-fx-font-size: 20" prefWidth="300" prefHeight="550" AnchorPane.leftAnchor="80" AnchorPane.topAnchor="70">
+        <columns>
+            <TableColumn fx:id="clmNombreCompany"  text="Empresa" editable="false" style="-fx-font-size: 20" prefWidth="300"/>
+        </columns>
+    </TableView>
+
+    <TableView fx:id="tablaPlanes" style="-fx-font-size: 20" prefWidth="300" prefHeight="550" AnchorPane.leftAnchor="390" AnchorPane.topAnchor="70">
+        <columns>
+            <TableColumn fx:id="clmPlanes"  text="Planes" editable="false" style="-fx-font-size: 20" prefWidth="150"/>
+            <TableColumn fx:id="clmComision"  text="Comision" editable="false" style="-fx-font-size: 20" prefWidth="150"/>
+        </columns>
+    </TableView>
+
+    <StackPane fx:id="stPane" prefWidth="460" prefHeight="320" AnchorPane.rightAnchor="40" AnchorPane.topAnchor="200">
+        <Group StackPane.alignment="CENTER">
+            <ImageView fx:id="lblImagen" AnchorPane.leftAnchor="0" fitWidth="460" fitHeight="320" AnchorPane.topAnchor="0"/>
+        </Group>
+    </StackPane>
+
+</AnchorPane>

@@ -1,11 +1,9 @@
 package sample.DAO;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import sample.Complements.MySQL;
@@ -27,7 +25,7 @@ public class PhoneplanDAO {
     public List<sample.Modelos.Phoneplan> findAll() {
         List<sample.Modelos.Phoneplan> Phoneplan = new ArrayList<sample.Modelos.Phoneplan>();
         try {
-            String query = "SELECT * FROM transaction";
+            String query = "SELECT * FROM phoneplan";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
             sample.Modelos.Phoneplan p = null;
@@ -49,6 +47,30 @@ public class PhoneplanDAO {
         return Phoneplan;
     }
 
+    public List<sample.Modelos.Phoneplan> findAllSinRepetidos() {
+        List<sample.Modelos.Phoneplan> Phoneplan = new ArrayList<sample.Modelos.Phoneplan>();
+        try {
+            String query = "SELECT * FROM phoneplan group by quantity";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            sample.Modelos.Phoneplan p = null;
+            while(rs.next()) {
+                p = new sample.Modelos.Phoneplan(
+                        rs.getInt("id_phoneplane"),
+                        rs.getInt("quantity"),
+                        companyDAO.fetch(rs.getInt("id_company"))
+                );
+                Phoneplan.add(p);
+            }
+            rs.close();
+            st.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información...");
+        }
+        return Phoneplan;
+    }
 
     public ObservableList<sample.Modelos.Phoneplan> fetchPlanCompany(int id_company) {
         ObservableList<sample.Modelos.Phoneplan> Phoneplan = FXCollections.observableArrayList();
@@ -113,6 +135,24 @@ public class PhoneplanDAO {
             System.out.println("Error al recuperar información...");
         }
         return e;
+    }
+
+    public Boolean insertPhonePlan(int quantity, int id_company) {
+        try {
+            String query = "insert into phoneplan"
+                    + " (quantity, id_company)"
+                    + " values (?, ?)";
+            PreparedStatement st =  conn.prepareStatement(query);
+            st.setInt(1, quantity);
+            st.setInt(2, id_company);
+            st.execute();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
+        return false;
     }
 
 /*
