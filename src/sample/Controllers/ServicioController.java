@@ -76,6 +76,7 @@ public class ServicioController implements Initializable {
     quantity_telephone e=null;
     Company company_select=null;
     Busticket busTK;
+    Recharge recharge=null;
     public static final String ticket = "results/Tickets/ticket.pdf";
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -346,6 +347,8 @@ public class ServicioController implements Initializable {
                             lblPago.setText("Los numero no coinciden");
                             lblPago.setVisible(true);
                         }
+                        recharge=rechargeDAO.fetch(telefono);
+                        ticketimp(event, recharge);
                         break;
                     case "Autobus":
                         idbus =b.get(tabla.getSelectionModel().getSelectedIndex()).getId_bus();
@@ -373,7 +376,6 @@ public class ServicioController implements Initializable {
     };
 
     private void ticketimp(ActionEvent event, Object t) {
-
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
             a.setTitle("To print");
             a.setContentText("¿Desea imprimir ticket?");
@@ -382,9 +384,21 @@ public class ServicioController implements Initializable {
                 try {
                     File file = new File(ticket);
                     file.getParentFile().mkdirs();
-
-                    new Ticket().createBUSTK(ticket,t);
-                    Desktop.getDesktop().open(file);
+                    switch (direccion){
+                        case "Hogar":
+                            //new Ticket()
+                            break;
+                        case "Recargas":
+                            new Ticket().createRecharge(ticket, recharge);
+                            Desktop.getDesktop().open(file);
+                            break;
+                        case "Autobus":
+                            new Ticket().createBUSTK(ticket,t);
+                            Desktop.getDesktop().open(file);
+                            break;
+                        case "Pagos":
+                            break;
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

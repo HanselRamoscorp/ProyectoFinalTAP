@@ -100,7 +100,7 @@ public class PhoneplanDAO {
         ResultSet rs = null;
         sample.Modelos.Phoneplan e = null;
         try {
-            String query = "SELECT * FROM phoneplan where id_phoneplan = " + id_phoneplan;
+            String query = "SELECT * FROM phoneplan where id_phoneplane = " + id_phoneplan;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
             if (rs.first()){

@@ -73,18 +73,20 @@ public class RechargeDAO {
         return Recharge;
     }
 
-    public sample.Modelos.Recharge fetch(String trans_id) {
+    public sample.Modelos.Recharge fetch(String phone_number) {
         ResultSet rs = null;
         sample.Modelos.Recharge e = null;
         try {
-            String query = "SELECT * FROM transaction where id = " + trans_id;
+            String query = "SELECT * FROM recharge where phonenumber = " + phone_number;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
-            e = new sample.Modelos.Recharge(
-                    rs.getInt("id_recharge"),
-                    rs.getString("phonenumber"),
-                    phoneplanDAO.fetch(rs.getInt("id_phoneplan"))
-            );
+            if (rs.next()){
+                e = new sample.Modelos.Recharge(
+                        rs.getInt("id_recharge"),
+                        rs.getString("phonenumber"),
+                        phoneplanDAO.fetch(rs.getInt("id_phoneplane"))
+                );
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");
