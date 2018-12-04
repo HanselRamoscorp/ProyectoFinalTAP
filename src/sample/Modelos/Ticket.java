@@ -1,6 +1,5 @@
 package sample.Modelos;
 
-
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.font.PdfFont;
@@ -21,7 +20,7 @@ import java.io.IOException;
 @WrapToTest
 public class Ticket {
     String compañia;
-    public static final String TELMEX = "/Pictures/Fondos/linpay.png";
+    public static final String direc = "/Pictures/Fondos/linpay.png";
 
     public void createBUSTK(String dest ,Object bTK) throws IOException {
      Busticket  bustk= Busticket.class.cast(bTK);
@@ -83,11 +82,11 @@ public class Ticket {
         Paragraph p5 = new Paragraph().add(text12).add("\n");
         p5.setTextAlignment(TextAlignment.LEFT);*/
 
-        Image telmex = new Image(ImageDataFactory.create(TELMEX));
+        Image imagen = new Image(ImageDataFactory.create(direc));
         //telmex.setWidth(200).setHeight(100).setTextAlignment(TextAlignment.CENTER);
 
         //Add paragraph to the document
-        document.add(telmex).add(new Paragraph("\n")).add(p1).add(new LineSeparator(dashedLine)).add(p2).add(p3);
+        document.add(imagen).add(new Paragraph("\n")).add(p1).add(new LineSeparator(dashedLine)).add(p2).add(p3);
 
         //Close document
         document.close();

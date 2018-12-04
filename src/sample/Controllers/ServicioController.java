@@ -382,6 +382,7 @@ public class ServicioController implements Initializable {
                 try {
                     File file = new File(ticket);
                     file.getParentFile().mkdirs();
+
                     new Ticket().createBUSTK(ticket,t);
                     Desktop.getDesktop().open(file);
                 } catch (IOException e) {

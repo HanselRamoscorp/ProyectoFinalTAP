@@ -94,14 +94,16 @@ public class BusDAO {
                     " where id_bus = "+ id  ;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
-            e = new sample.Modelos.Bus(
-                    rs.getInt("id_bus"),
-                    rs.getString("outdate"),
-                    cityDAO.fetch(rs.getInt("id_origin")),
-                    cityDAO.fetch(rs.getInt("id_destiny")),
-                    linebusDAO.fetch2(rs.getInt("id_linebus")),
-                    rs.getInt("amount")
-            );
+            if (rs.next()){
+                e = new sample.Modelos.Bus(
+                        rs.getInt("id_bus"),
+                        rs.getString("outdate"),
+                        cityDAO.fetch(rs.getInt("id_origin")),
+                        cityDAO.fetch(rs.getInt("id_destiny")),
+                        linebusDAO.fetch2(rs.getInt("id_linebus")),
+                        rs.getInt("amount")
+                );
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");

@@ -1,6 +1,6 @@
 package sample.Modelos;
 
-public class User {
+public class  User {
     int id_user;
     String user_name, password;
     Store id_store;
