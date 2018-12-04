@@ -332,11 +332,12 @@ public class ServicioController implements Initializable {
                         break;
                     case "Recargas":
                         if (TF4.getText().equals(TF5.getText())){
+                            idbus=rechargeDAO.count();
                             telefono=TF4.getText();
                             cantPagar=p.get(tabla.getSelectionModel().getSelectedIndex()).getQuantity();
                             company_name=combobox.getSelectionModel().getSelectedItem();
                             id=phoneplanDAO.getId_phoneplan(cantPagar,company_name);
-                            if (rechargeDAO.insert(telefono, id)){
+                            if (rechargeDAO.insert(idbus, telefono, id)){
                                 lblPago.setText("Recarga registrada");
                                 lblPago.setVisible(true);
                             }else{
@@ -347,7 +348,7 @@ public class ServicioController implements Initializable {
                             lblPago.setText("Los numero no coinciden");
                             lblPago.setVisible(true);
                         }
-                        recharge=rechargeDAO.fetch(telefono);
+                        recharge=rechargeDAO.fetch(idbus);
                         ticketimp(event, recharge);
                         break;
                     case "Autobus":

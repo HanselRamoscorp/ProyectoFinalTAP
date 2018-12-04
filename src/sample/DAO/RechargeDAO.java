@@ -73,11 +73,11 @@ public class RechargeDAO {
         return Recharge;
     }
 
-    public sample.Modelos.Recharge fetch(String phone_number) {
+    public sample.Modelos.Recharge fetch(int id) {
         ResultSet rs = null;
         sample.Modelos.Recharge e = null;
         try {
-            String query = "SELECT * FROM recharge where phonenumber = " + phone_number;
+            String query = "SELECT * FROM recharge where id_recharge = " + id;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
             if (rs.next()){
@@ -94,13 +94,31 @@ public class RechargeDAO {
         return e;
     }
 
-    public Boolean insert(String telefono, int id_plan) {
+    public int count() {
+        ResultSet rs = null;
+        int e = 0;
         try {
-            String query = "insert into recharge (phonenumber,id_phoneplane,date_amount)"
-                    + " values (?, ?, now())";
+            String query = "SELECT count(*) valor FROM recharge";
+            Statement st = conn.createStatement();
+            rs = st.executeQuery(query);
+            if (rs.next()){
+                e = rs.getInt("id_recharge");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información...");
+        }
+        return e;
+    }
+
+    public Boolean insert(int id, String telefono, int id_plan) {
+        try {
+            String query = "insert into recharge (id_recharge, phonenumber,id_phoneplane,date_amount)"
+                    + " values (?, ?, ?, now())";
             PreparedStatement st =  conn.prepareStatement(query);
-            st.setString(1, telefono);
-            st.setInt(2, id_plan);
+            st.setInt(1, id);
+            st.setString(2, telefono);
+            st.setInt(3, id_plan);
             st.execute();
             return true;
         } catch (Exception e) {
