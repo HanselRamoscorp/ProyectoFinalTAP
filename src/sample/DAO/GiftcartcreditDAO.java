@@ -59,7 +59,7 @@ public class GiftcartcreditDAO {
             sample.Modelos.Giftcartcredit p = null;
             while(rs.next()) {
                 p = new sample.Modelos.Giftcartcredit(
-                        rs.getInt("id_giftcartcredite"),
+                        rs.getInt("id_giftcartcredit"),
                         rs.getInt("credit"),
                         companyDAO.fetch(rs.getInt("id_company"))
                 );

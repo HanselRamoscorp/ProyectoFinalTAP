@@ -10,7 +10,7 @@ public class MySQL {
     private static String hostname   = "localhost";
     private static String dbname = "proyectofinalbd";
     private static String dbuser = "root";
-    private static String dbpass = "pegaso";
+    private static String dbpass = "Barong58";
 
 
     public static void Connect() {

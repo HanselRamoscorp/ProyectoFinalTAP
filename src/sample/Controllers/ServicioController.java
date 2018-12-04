@@ -7,29 +7,37 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import sample.Complements.MySQL;
 import sample.DAO.*;
 import sample.Modelos.*;
 
+import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ServicioController implements Initializable {
     Controller controller=new Controller();
     User user=null;
     String direccion, company_name, referencia;
-    int cantPagar=0, pago, id=0, id2=0,id3=0,idbus=0, idc=0;
+    int cantPagar=0, pago, id=0, id2=0,id3=0,idbus=0, idc=0,idbusTK=0 ;
     String telefono="",nombre;
     byte bi[] = null;
 
@@ -60,13 +68,15 @@ public class ServicioController implements Initializable {
     ObservableList<TablaHomeService> tablaHomeService=null;
     ObservableList<Phoneplan> p=null;
     ObservableList<Bus> b = null;
+    ObservableList<Busticket> bt = null;
     ObservableList<Giftcartcredit> c = null;
     List<Company> company=new ArrayList<>();
     List<City> city =new ArrayList<>();
     List<TypeHomeService> typeHomeServices=new ArrayList<>();
     quantity_telephone e=null;
     Company company_select=null;
-
+    Busticket busTK;
+    public static final String ticket = "results/Tickets/ticket.pdf";
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         TF1.setVisible(false);
@@ -117,6 +127,8 @@ public class ServicioController implements Initializable {
                 break;
 
             case "Pagos":
+                clmCantidad.setVisible(true);
+                clmCantidad.setText("CANTIDAD");
                 combobox.setPromptText("Pagos en linea");
                 TF1.setVisible(true);
                 company=companyDAO.fetchAll(4);
@@ -135,7 +147,7 @@ public class ServicioController implements Initializable {
                 for (int i = 0; i < company.size(); i++) {
                 combobox.getItems().add(company.get(i).getName());
             }
-                city=cityDAO.fetchAll();
+                city   =cityDAO.fetchAll();
                 for (int i = 0; i < city.size(); i++) {
                     combobox2.getItems().add(city.get(i).getCity());
                     combobox3.getItems().add(city.get(i).getCity());
@@ -193,10 +205,10 @@ public class ServicioController implements Initializable {
         });
 
         TF1.setEditable(false);
-        TF3.setOnMouseClicked(event);
-        TF2.setOnMouseClicked(event);
-        TF4.setOnMouseClicked(event);
-        TF5.setOnMouseClicked(event);
+        TF3.setOnMouseClicked(eventM);
+        TF2.setOnMouseClicked(eventM);
+        TF4.setOnMouseClicked(eventM);
+        TF5.setOnMouseClicked(eventM);
 
         combobox.setOnAction(event1 -> {
             switch (direccion){
@@ -215,12 +227,7 @@ public class ServicioController implements Initializable {
                     tablaHomeService=homeServiceDAO.fetch2(id_type);
                     break;
                 case "Recargas":
-                    for (int i = 0; i < company.size(); i++) {
-                        if (company.get(i).getName().equals(combobox.getSelectionModel().getSelectedItem())){
-                            id=company.get(i).getId_company();
-                            break;
-                        }
-                    }
+
                     clmCantidad.setCellValueFactory(new PropertyValueFactory<Phoneplan, String>("quantity"));
                     tabla.setItems(phoneplanDAO.fetchPlanCompany(id));
                     p=phoneplanDAO.fetchPlanCompany(id);
@@ -233,7 +240,7 @@ public class ServicioController implements Initializable {
                             break;
                         }
                     }
-                    clmCantidad.setCellValueFactory(new PropertyValueFactory<Phoneplan, String>("credit"));
+                    clmCantidad.setCellValueFactory(new PropertyValueFactory<Giftcartcredit, String>("credit"));
                     tabla.setItems(giftcartcreditDAO.fetchGcredit(id));
                     c=giftcartcreditDAO.fetchGcredit(id);
             }
@@ -324,14 +331,20 @@ public class ServicioController implements Initializable {
                         idbus =b.get(tabla.getSelectionModel().getSelectedIndex()).getId_bus();
                         nombre = TF5.getText();
                         bustickDAO.insert(nombre,idbus);
+                        idbusTK = bustickDAO.Count();
+                        busTK= bustickDAO.fetch(idbusTK);
                         lblPago.setText("Boleto registrado");
                         lblPago.setVisible(true);
+                        ticketimp(event, busTK);
+
                         break;
+
                     case "Pagos":
-                       idc= c.get(tabla.getSelectionModel().getSelectedIndex()).getId_giftcartcredit();
+                       idc = c.get(tabla.getSelectionModel().getSelectedIndex()).getId_giftcartcredit();
                        giftcartDAO.insert(idc);
                         lblPago.setText("Pago registrado");
                         lblPago.setVisible(true);
+
                 }
             }catch (Exception e){
                 System.out.println(e);
@@ -339,7 +352,33 @@ public class ServicioController implements Initializable {
         }
     };
 
-    EventHandler<MouseEvent> event=new EventHandler<MouseEvent>() {
+    private void ticketimp(ActionEvent event, Object t) {
+
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+            a.setTitle("To print");
+            a.setContentText("¿Desea imprimir ticket?");
+            Optional<ButtonType> responde = a.showAndWait();
+            if (responde.get().equals(ButtonType.OK)) {
+                try {
+                    File file = new File(ticket);
+                    file.getParentFile().mkdirs();
+                    new Ticket().createBUSTK(ticket,t);
+                    Desktop.getDesktop().open(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Main.primaryStage.show();
+                ((Stage) (((Button) event.getSource()).getScene().getWindow())).hide();
+            }else {
+                Main.primaryStage.show();
+                ((Stage) (((Button) event.getSource()).getScene().getWindow())).hide();
+            }
+        }
+
+
+
+
+    EventHandler<MouseEvent> eventM=new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
             TextField text=(TextField) event.getSource();

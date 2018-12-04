@@ -1,11 +1,9 @@
 package sample.DAO;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import sample.Complements.MySQL;
@@ -126,6 +124,25 @@ public class UserDAO {
             System.out.println("Error al recuperar información..."+ex.getMessage());
         }
         return e;
+    }
+
+    public Boolean insert(String name, String password,int id_typeuser, int id_store) {
+        try {
+            String query = "insert into user (user_name, password, id_store, id_typeuser)"
+                    + " values (?, ?, ?, ?)";
+            PreparedStatement st =  conn.prepareStatement(query);
+            st.setString(1, name);
+            st.setString(2, password);
+            st.setInt(3,id_store);
+            st.setInt(4,id_typeuser);
+            st.execute();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
+        return false;
     }
 /*
     public Boolean delete(int trans_id) {

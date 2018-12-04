@@ -9,9 +9,17 @@
     <Label text="Nombre de usuario:" style="-fx-font-size: 20" AnchorPane.leftAnchor="400" AnchorPane.topAnchor="250"/>
     <Label text="Contraseña:" style="-fx-font-size: 20" AnchorPane.leftAnchor="400" AnchorPane.topAnchor="300"/>
     <Label text="Confirmar contraseña:" style="-fx-font-size: 20" AnchorPane.leftAnchor="400" AnchorPane.topAnchor="350"/>
-    <TextField AnchorPane.leftAnchor="650" style="-fx-font-size: 20" AnchorPane.topAnchor="250"/>
-    <PasswordField AnchorPane.leftAnchor="650" style="-fx-font-size: 20" AnchorPane.topAnchor="300"/>
-    <PasswordField AnchorPane.leftAnchor="650" style="-fx-font-size: 20" AnchorPane.topAnchor="350"/>
+    <Label text="Tipo de Usuario:" style="-fx-font-size: 20" AnchorPane.leftAnchor="400" AnchorPane.topAnchor="450"/>
+
+
+    <TextField fx:id="NombreUTF" AnchorPane.leftAnchor="650" style="-fx-font-size: 20" AnchorPane.topAnchor="250"/>
+    <PasswordField fx:id="PS1TF" AnchorPane.leftAnchor="650" style="-fx-font-size: 20" AnchorPane.topAnchor="300"/>
+    <PasswordField fx:id="PSTF2" AnchorPane.leftAnchor="650" style="-fx-font-size: 20" AnchorPane.topAnchor="350"/>
+    <Label fx:id="msj" textFill="white"  AnchorPane.leftAnchor="650" AnchorPane.topAnchor="650"/>
+    <ComboBox  fx:id="cmb" AnchorPane.leftAnchor="650" AnchorPane.topAnchor="450" prefWidth="200">
+    </ComboBox>
+
+    <Button fx:id="btnRegistrar" text="ACEPTAR" prefWidth="200"  AnchorPane.leftAnchor="650" AnchorPane.topAnchor="550" />
     <Button fx:id="btnRegresar" prefHeight="30" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0">         <!--- Boton Pago de Servicio domestico -->
         <graphic>
             <MaterialIconView glyphName="KEYBOARD_ARROW_LEFT" glyphSize="15" fill="azure"/>
