@@ -37,4 +37,9 @@
             <FontAwesomeIconView glyphName="EDIT" glyphSize="200" fill= "azure"/>
         </graphic>
     </Button>
+    <Button fx:id="btnReportes" text="Reporte de ventas" contentDisplay="TOP" prefWidth="200" AnchorPane.topAnchor="150" AnchorPane.leftAnchor="1180">         <!--- Boton Modificar servicios -->
+        <graphic>
+            <MaterialIconView glyphName="ARCHIVE" glyphSize="200" fill= "azure"/>
+        </graphic>
+    </Button>
 </AnchorPane>

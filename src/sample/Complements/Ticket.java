@@ -1,4 +1,4 @@
-package sample.Modelos;
+package sample.Complements;
 
 
 import com.itextpdf.io.font.FontConstants;
@@ -15,6 +15,10 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.test.annotations.WrapToTest;
+import sample.Modelos.Busticket;
+import sample.Modelos.Giftcart;
+import sample.Modelos.PaymentHS;
+import sample.Modelos.Recharge;
 
 import java.io.IOException;
 
@@ -22,18 +26,18 @@ import java.io.IOException;
 public class Ticket {
     public static final String imagen = "src/Pictures/Fondos/linpay.png";
 
-    public void createBUSTK(String dest ,Busticket bustk) throws IOException {
+    public void createBUSTK(String dest , Busticket bustk) throws IOException {
 
-     String compañia = bustk.id_bus.id_linebus.id_company.name;
-     int NoBoleto = bustk.id_busticket;
-     String NomCliente = bustk.clientname;
-     String payDate = bustk.pay_date;
-     int NoAutoB = bustk.id_bus.id_bus;
-     String Salida = bustk.id_bus.outdate;
-     String origen = bustk.id_bus.id_origin.city;
-     String destino = bustk.id_bus.id_destiny.city;
-     String TipoViaje = bustk.id_bus.id_linebus.trip;
-     int costo = bustk.id_bus.amount;
+     String compañia = bustk.getId_bus().getId_linebus().getId_company().getName();
+     int NoBoleto = bustk.getId_busticket();
+     String NomCliente = bustk.getClientname();
+     String payDate = bustk.getPay_date();
+     int NoAutoB = bustk.getId_bus().getId_bus();
+     String Salida = bustk.getId_bus().getOutdate();
+     String origen = bustk.getId_bus().getId_origin().getCity();
+     String destino = bustk.getId_bus().getId_destiny().getCity();
+     String TipoViaje = bustk.getId_bus().getId_linebus().getTrip();
+     int costo = bustk.getId_bus().getAmount();
 
         PdfWriter writer = new PdfWriter(dest);
 
@@ -57,7 +61,7 @@ public class Ticket {
         //DottedLine dottedLine = new DottedLine(1); Linea punteada
         DashedLine dashedLine = new DashedLine(1);
 
-        Text text1 = new Text("Numero de Ticket" + bustk.id_busticket).setFont(font2).setFontSize(10).setBold();
+        Text text1 = new Text("Numero de Ticket" + bustk.getId_busticket()).setFont(font2).setFontSize(10).setBold();
         Paragraph p2 = new Paragraph().add(text1).add("\n\n");
         p2.setTextAlignment(TextAlignment.CENTER);
 
@@ -109,11 +113,11 @@ public class Ticket {
         //DottedLine dottedLine = new DottedLine(1); Linea punteada
         DashedLine dashedLine = new DashedLine(1);
 
-        Text text1 = new Text("Numero de Ticket: "+bTK.id_recharge).setFont(font2).setFontSize(10).setBold();
+        Text text1 = new Text("Numero de Ticket: "+bTK.getId_recharge()).setFont(font2).setFontSize(10).setBold();
         Paragraph p2 = new Paragraph().add(text1).add("\n\n");
         p2.setTextAlignment(TextAlignment.CENTER);
 
-        Text text2 = new Text("Compañia : "+ bTK.getId_phoneplan().id_company.getName()).setFont(font2).setFontSize(10);
+        Text text2 = new Text("Compañia : "+ bTK.getId_phoneplan().getId_company().getName()).setFont(font2).setFontSize(10);
         Text text3 = new Text("Numero de telefono: "+ bTK.getPhonenumber()).setFont(font2).setFontSize(10);
         Text text4 = new Text("Recarga de "+ bTK.getId_phoneplan().getQuantity()).setFont(font2).setFontSize(10);
         Paragraph p3 = new Paragraph().add(text2).add("\n").add(text3).add("\n").add(text4).add(new LineSeparator(dashedLine));
@@ -148,8 +152,8 @@ public class Ticket {
         Paragraph p2 = new Paragraph().add(text1).add("\n\n");
         p2.setTextAlignment(TextAlignment.CENTER);
 
-        Text text2 = new Text("Compañia : "+ gTK.getId_giftcartcredit().id_company.name).setFont(font2).setFontSize(10);
-        Text text4 = new Text("Credito de: "+ gTK.getId_giftcartcredit().credit).setFont(font2).setFontSize(10);
+        Text text2 = new Text("Compañia : "+ gTK.getId_giftcartcredit().getId_company().getName()).setFont(font2).setFontSize(10);
+        Text text4 = new Text("Credito de: "+ gTK.getId_giftcartcredit().getCredit()).setFont(font2).setFontSize(10);
         Paragraph p3 = new Paragraph().add(text2).add("\n").add(text4).add(new LineSeparator(dashedLine));
         p3.setTextAlignment(TextAlignment.LEFT);
 
@@ -178,12 +182,12 @@ public class Ticket {
         //DottedLine dottedLine = new DottedLine(1); Linea punteada
         DashedLine dashedLine = new DashedLine(1);
 
-        Text text1 = new Text("Numero de Ticket"+ hTK.id_paymentHS ).setFont(font2).setFontSize(10).setBold();
+        Text text1 = new Text("Numero de Ticket"+ hTK.getId_paymentHS() ).setFont(font2).setFontSize(10).setBold();
         Paragraph p2 = new Paragraph().add(text1).add("\n\n");
         p2.setTextAlignment(TextAlignment.CENTER);
 
-        Text text2 = new Text("Compañia : "+ hTK.id_HomeService.id_company.name).setFont(font2).setFontSize(10);
-        Text text3 = new Text("Tipo de servicio: "+ hTK.id_HomeService.id_TypeHS.type ).setFont(font2).setFontSize(10);
+        Text text2 = new Text("Compañia : "+ hTK.getId_HomeService().getId_company().getName()).setFont(font2).setFontSize(10);
+        Text text3 = new Text("Tipo de servicio: "+ hTK.getId_HomeService().getId_TypeHS().getType() ).setFont(font2).setFontSize(10);
         Text text4 = new Text("PAGADO "+ hTK.getPay_amount()).setFont(font2).setFontSize(10);
         Text text5 = new Text("Fecha de pago"+ hTK.getPay_date()).setFont(font2).setFontSize(10);
 

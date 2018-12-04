@@ -20,7 +20,7 @@ public class MenuModificarController implements Initializable {
     Controller controller=new Controller();
     User user=new User();
 
-    @FXML Button btnRegresar, btnSeleccionar, btnActualizar, btnEliminar, btnAgregar;
+    @FXML Button btnRegresar, btnSeleccionar, btnActualizar, btnEliminar, btnAgregar, btnReportes;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -30,6 +30,8 @@ public class MenuModificarController implements Initializable {
         btnActualizar.setOnAction(event);
         btnSeleccionar.setOnAction(event);
         btnAgregar.setOnAction(event);
+        btnEliminar.setOnAction(event);
+        btnReportes.setOnAction(event);
     }
 
     EventHandler<ActionEvent> event=new EventHandler<ActionEvent>() {
@@ -54,7 +56,13 @@ public class MenuModificarController implements Initializable {
                     controller.cargar(loader, modificarServicioController, event);
                 }else{
                     if (event.getSource().equals(btnEliminar)){
+                        Stage servicioStage=new Stage();
+                        servicioStage.setTitle("Agregar Servicio");
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/FXML/EliminarServicio.fxml"));
 
+                        EliminarServicioController eliminarServicioController=new EliminarServicioController();
+                        eliminarServicioController.setUser(user);
+                        controller.cargar(loader, eliminarServicioController, event);
                     }else{
                         if (event.getSource().equals(btnAgregar)){
                             Stage servicioStage=new Stage();
@@ -64,6 +72,14 @@ public class MenuModificarController implements Initializable {
                             AgregarServiciosController agregarServiciosController=new AgregarServiciosController();
                             agregarServiciosController.setUser(user);
                             controller.cargar(loader, agregarServiciosController, event);
+                        }else{
+                            Stage servicioStage=new Stage();
+                            servicioStage.setTitle("Reporte Servicio");
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/FXML/Reportes.fxml"));
+
+                            ReportesController reportesController=new ReportesController();
+                            reportesController.setUser(user);
+                            controller.cargar(loader, reportesController, event);
                         }
                     }
                 }

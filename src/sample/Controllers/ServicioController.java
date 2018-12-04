@@ -1,6 +1,5 @@
 package sample.Controllers;
 
-import com.mysql.jdbc.authentication.MysqlClearPasswordPlugin;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,11 +17,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import sample.Complements.MySQL;
+import sample.Complements.Ticket;
 import sample.DAO.*;
 import sample.Modelos.*;
 
 import java.awt.*;
-import java.awt.image.BufferStrategy;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +42,7 @@ public class ServicioController implements Initializable {
 
     @FXML ComboBox<String> combobox, combobox2,combobox3;
     @FXML Button btnRegresar, btnAceptar,acceptarbus;
-    @FXML TextField TF4, TF1, TF2, TF3, TF5,origenbus,destinobus;
+    @FXML TextField TF4, TF1, TF2, TF3, TF5,origenbus,destinobus, TFNumeAutorizacion;
     @FXML Label lblPago;
 
     @FXML TableView tabla;
@@ -78,6 +77,8 @@ public class ServicioController implements Initializable {
     Busticket busTK;
     Giftcart GC;
     Recharge recharge=null;
+    PaymentHS paymentHS=null;
+
     public static final String ticket = "results/Tickets/ticket.pdf";
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -193,10 +194,6 @@ public class ServicioController implements Initializable {
             tabla.setItems(busDAO.fetch2(id,id2,id3));
             b=busDAO.fetch2(id,id2,id3);
 
-
-
-
-
         } );
 
         btnRegresar.setOnAction(event -> {
@@ -208,6 +205,7 @@ public class ServicioController implements Initializable {
         TF2.setOnMouseClicked(eventM);
         TF4.setOnMouseClicked(eventM);
         TF5.setOnMouseClicked(eventM);
+        TFNumeAutorizacion.setOnMouseClicked(eventM);
 
         combobox.setOnAction(event1 -> {
             switch (direccion){
@@ -253,6 +251,7 @@ public class ServicioController implements Initializable {
                         lblImagen.setFitHeight(320);
                         lblImagen.setPreserveRatio(true);
                     }
+                    TF1.setText(company_select.getId_commission().getPercentage());
                     break;
 
                 case "Pagos":
@@ -271,6 +270,7 @@ public class ServicioController implements Initializable {
         tabla.setOnMouseClicked(data);
         btnAceptar.setOnAction(Aceptar);
         TF3.setOnKeyPressed(info);
+
     }
 
     EventHandler<KeyEvent> info=new EventHandler<KeyEvent>() {
@@ -308,71 +308,79 @@ public class ServicioController implements Initializable {
         @Override
         public void handle(ActionEvent event) {
             try {
-                switch (direccion) {
-                    case "Hogar":
-                        if(TF4.getText().equals(TF5.getText())){
-                            pago=Integer.parseInt(TF2.getText());
-                            if (pago>=cantPagar && telefono.equals(TF4.getText())) {
-                                if (TF4.getText().equals(e.getTelephone())){
-                                    pago-=cantPagar;
-                                    if (paymentHSDAO.update(cantPagar, pago, referencia))
+                if (TFNumeAutorizacion.getText().equals("1603")){
+                    lblPago.setVisible(false);
+                    switch (direccion) {
+                        case "Hogar":
+                            if(TF4.getText().equals(TF5.getText())){
+                                pago=Integer.parseInt(TF2.getText());
+                                if (pago>=cantPagar && telefono.equals(TF4.getText())) {
+                                    if (TF4.getText().equals(e.getTelephone())){
+                                        pago-=cantPagar;
+                                        if (paymentHSDAO.update(cantPagar, pago, referencia))
+                                            lblPago.setVisible(true);
+                                    }else{
+                                        lblPago.setText("Numero de telefono invalido");
                                         lblPago.setVisible(true);
-                                }else{
-                                    lblPago.setText("Numero de telefono invalido");
+                                    }
+                                }
+                                else{
+                                    lblPago.setText("Pago insuficiente");
                                     lblPago.setVisible(true);
                                 }
-                            }
-                            else{
-                                lblPago.setText("Pago insuficiente");
-                                lblPago.setVisible(true);
-                            }
-                        }else{
-                            lblPago.setText("Los telefonos no coinciden");
-                            lblPago.setVisible(true);
-                        }
-                        break;
-                    case "Recargas":
-                        if (TF4.getText().equals(TF5.getText())){
-                          idr=rechargeDAO.count();
-                            telefono=TF4.getText();
-                            cantPagar=p.get(tabla.getSelectionModel().getSelectedIndex()).getQuantity();
-                            company_name=combobox.getSelectionModel().getSelectedItem();
-                            id=phoneplanDAO.getId_phoneplan(cantPagar,company_name);
-      /* CHECAR ESTO*/          if (rechargeDAO.insert(idr, telefono, id)){
-                                lblPago.setText("Recarga registrada");
-                                lblPago.setVisible(true);
                             }else{
-                                lblPago.setText("Recarga invalida");
+                                lblPago.setText("Los telefonos no coinciden");
                                 lblPago.setVisible(true);
                             }
-                        }else{
-                            lblPago.setText("Los numero no coinciden");
+                            paymentHS=paymentHSDAO.fetch(TF3.getText());
+                            ticketimp(event, paymentHS);
+                            break;
+                        case "Recargas":
+                            if (TF4.getText().equals(TF5.getText())){
+                                idr=rechargeDAO.count()+1;
+                                telefono=TF4.getText();
+                                cantPagar=p.get(tabla.getSelectionModel().getSelectedIndex()).getQuantity();
+                                company_name=combobox.getSelectionModel().getSelectedItem();
+                                id=phoneplanDAO.getId_phoneplan(cantPagar,company_name);
+                                if (rechargeDAO.insert(idr, telefono, id)){
+                                    lblPago.setText("Recarga registrada");
+                                    lblPago.setVisible(true);
+                                }else{
+                                    lblPago.setText("Recarga invalida");
+                                    lblPago.setVisible(true);
+                                }
+                            }else{
+                                lblPago.setText("Los numero no coinciden");
+                                lblPago.setVisible(true);
+                            }
+                            recharge=rechargeDAO.fetch(idr);
+                            ticketimp(event, recharge);
+                            break;
+                        case "Autobus":
+                            idbus =b.get(tabla.getSelectionModel().getSelectedIndex()).getId_bus();
+                            nombre = TF5.getText();
+                            bustickDAO.insert(nombre,idbus);
+                            idbusTK = bustickDAO.Count();
+                            busTK= bustickDAO.fetch(idbusTK);
+                            lblPago.setText("Boleto registrado");
                             lblPago.setVisible(true);
-                        }
-                        recharge=rechargeDAO.fetch(idr);
-                        ticketimp(event, recharge);
-                        break;
-                    case "Autobus":
-                        idbus =b.get(tabla.getSelectionModel().getSelectedIndex()).getId_bus();
-                        nombre = TF5.getText();
-                        bustickDAO.insert(nombre,idbus);
-                        idbusTK = bustickDAO.Count();
-                        busTK= bustickDAO.fetch(idbusTK);
-                        lblPago.setText("Boleto registrado");
-                        lblPago.setVisible(true);
-                        ticketimp(event, busTK);
+                            ticketimp(event, busTK);
 
-                        break;
+                            break;
 
-                    case "Pagos":
-                       idc = c.get(tabla.getSelectionModel().getSelectedIndex()).getId_giftcartcredit();
-                       giftcartDAO.insert(idc);
-                       idc = giftcartDAO.Count();
-                       GC = giftcartDAO.fetch(idc);
-                        lblPago.setText("Pago registrado");
-                        lblPago.setVisible(true);
-                        ticketimp(event,GC);
+                        case "Pagos":
+                            idc = c.get(tabla.getSelectionModel().getSelectedIndex()).getId_giftcartcredit();
+                            giftcartDAO.insert(idc);
+                            idc = giftcartDAO.Count();
+                            GC = giftcartDAO.fetch(idc);
+                            lblPago.setText("Pago registrado");
+                            lblPago.setVisible(true);
+                            ticketimp(event,GC);
 
+                    }
+                }else{
+                    lblPago.setText("Numero de autorizacion invalido");
+                    lblPago.setVisible(true);
                 }
             }catch (Exception e){
                 System.out.println(e);
@@ -391,7 +399,7 @@ public class ServicioController implements Initializable {
                     file.getParentFile().mkdirs();
                     switch (direccion){
                         case "Hogar":
-                           // new Ticket().createHomeService(ticket, recharge);
+                            new Ticket().createHomeService(ticket, paymentHS);
                             Desktop.getDesktop().open(file);
                             break;
                         case "Recargas":
@@ -451,6 +459,7 @@ public class ServicioController implements Initializable {
                         lblImagen.setFitHeight(320);
                         lblImagen.setPreserveRatio(true);
                     }
+                    TF1.setText(company_select.getId_commission().getPercentage());
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }

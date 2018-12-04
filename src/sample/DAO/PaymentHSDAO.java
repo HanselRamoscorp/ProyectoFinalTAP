@@ -78,11 +78,11 @@ public class PaymentHSDAO {
         return PaymentHS;
     }
 
-    public sample.Modelos.PaymentHS fetch(String trans_id) {
+    public sample.Modelos.PaymentHS fetch(String referenceshs) {
         ResultSet rs = null;
         sample.Modelos.PaymentHS e = null;
         try {
-            String query = "SELECT * FROM transaction where id = " + trans_id;
+            String query = "SELECT * FROM paymenths where referenceshs = " + referenceshs;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
             e = new sample.Modelos.PaymentHS(

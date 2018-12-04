@@ -339,12 +339,11 @@ public class CompanyDAO {
         return e;
     }
 
-/*
-    public Boolean delete(int trans_id) {
+    public Boolean delete(int id_company) {
         try {
-            String query = "delete from transaction where id = ?";
+            String query = "delete from company where id_company = ?";
             PreparedStatement st = conn.prepareStatement(query);
-            st.setInt(1, trans_id);
+            st.setInt(1, id_company);
             st.execute();
             return true;
         } catch (Exception e) {
@@ -352,5 +351,84 @@ public class CompanyDAO {
         }
         return false;
     }
-*/
+
+    public int countTotalRecharge() {
+        ResultSet rs = null;
+        int e = 0;
+        try {
+            String query = "SELECT count(*) valor FROM recharge";
+            Statement st = conn.createStatement();
+            rs = st.executeQuery(query);
+            if (rs.next()){
+                e = rs.getInt("valor");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información...");
+        }
+        return e;
+    }
+
+    public int countTotalHomeService() {
+        ResultSet rs = null;
+        int e = 0;
+        try {
+            String query = " select count(pay_amount) valor" +
+                           " from paymenths";
+            Statement st = conn.createStatement();
+            rs = st.executeQuery(query);
+            if (rs.next()){
+                e = rs.getInt("valor");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información...");
+        }
+        return e;
+    }
+
+    public ObservableList<TablaReportes> countHomeService() {
+        ResultSet rs = null;
+        ObservableList<TablaReportes> e = FXCollections.observableArrayList();
+        try {
+            String query = "select c.name,count(pay_amount) valor" +
+                    " from paymenths p inner join homeservice h on p.id_HomeService = h.id_HomeService" +
+                    "                 inner join company c on h.id_company = c.id_company" +
+                    " where c.id_typecompany=2";
+            Statement st = conn.createStatement();
+            rs = st.executeQuery(query);
+            TablaReportes t=null;
+            while (rs.next()){
+                t = new TablaReportes(rs.getString("name"), rs.getInt("valor"));
+                e.add(t);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información...");
+        }
+        return e;
+    }
+
+    public ObservableList<TablaReportes> countRecharge() {
+        ResultSet rs = null;
+        ObservableList<TablaReportes> e = FXCollections.observableArrayList();
+        try {
+            String query = "select c.name, count(*) valor"+
+            " from recharge inner join phoneplan p on recharge.id_phoneplane = p.id_phoneplane"+
+            " inner join company c on p.id_company = c.id_company"+
+            " where c.id_typecompany=1"+
+            " group by c.name";
+            Statement st = conn.createStatement();
+            rs = st.executeQuery(query);
+            TablaReportes t=null;
+            while (rs.next()){
+                t = new TablaReportes(rs.getString("name"), rs.getInt("valor"));
+                e.add(t);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información...");
+        }
+        return e;
+    }
 }
