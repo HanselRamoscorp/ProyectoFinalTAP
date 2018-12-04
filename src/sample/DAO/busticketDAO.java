@@ -75,15 +75,17 @@ public class busticketDAO {
       try {
           String query = "select * "+
                   " from busticket "+
-                  " busticket where id_busticket = " + id;
+                  " where id_busticket = " + id;
           Statement st = conn.createStatement();
           rs = st.executeQuery(query);
-          e = new sample.Modelos.Busticket(
-                  rs.getInt("id_busticket"),
-                  rs.getString("clientname"),
-                  rs.getString("pay_date"),
-                  busDAO.fetch(rs.getInt("id_bus"))
-          );
+          if (rs.next()){
+              e = new sample.Modelos.Busticket(
+                      rs.getInt("id_busticket"),
+                      rs.getString("clientname"),
+                      rs.getString("pay_date"),
+                      busDAO.fetch(rs.getInt("id_bus"))
+              );
+          }
       } catch (SQLException ex) {
           ex.printStackTrace();
           System.out.println("Error al recuperar información...");
