@@ -136,7 +136,7 @@ GiftcartcreditDAO giftcartcreditDAO = new GiftcartcreditDAO(MySQL.getConnection(
         ResultSet rs = null;
         int e = 0;
         try {
-            String query = "SELECT count(*) id FROM giftcard";
+            String query = "SELECT count(*) id FROM giftcart";
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
             while(rs.next()){

@@ -91,15 +91,17 @@ public class HomeServiceDAO {
         ResultSet rs = null;
         sample.Modelos.HomeService e = null;
         try {
-            String query = "SELECT * FROM transaction where id = " + trans_id;
+            String query = "SELECT * FROM homeservice where id_HomeService = " + trans_id;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
-            e = new sample.Modelos.HomeService(
-                    rs.getInt("id_HomeService"),
-                    typeHomeServiceDAO.fetch(rs.getInt("id_typeHS")),
-                    companyDAO.fetch(rs.getInt("id_company")),
-                    planHSDAO.fetch(rs.getInt("id_planHS"))
-            );
+            if (rs.next()){
+                e = new sample.Modelos.HomeService(
+                        rs.getInt("id_HomeService"),
+                        typeHomeServiceDAO.fetch(rs.getInt("id_typeHS")),
+                        companyDAO.fetch(rs.getInt("id_company")),
+                        planHSDAO.fetch(rs.getInt("id_planHS"))
+                );
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");

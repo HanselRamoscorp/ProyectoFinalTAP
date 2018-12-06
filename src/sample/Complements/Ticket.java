@@ -182,7 +182,7 @@ public class Ticket {
         //DottedLine dottedLine = new DottedLine(1); Linea punteada
         DashedLine dashedLine = new DashedLine(1);
 
-        Text text1 = new Text("Numero de Ticket"+ hTK.getId_paymentHS() ).setFont(font2).setFontSize(10).setBold();
+        Text text1 = new Text("Numero de Ticket "+ hTK.getId_paymentHS() ).setFont(font2).setFontSize(10).setBold();
         Paragraph p2 = new Paragraph().add(text1).add("\n\n");
         p2.setTextAlignment(TextAlignment.CENTER);
 

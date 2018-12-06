@@ -134,7 +134,6 @@ public class ServicioController implements Initializable {
                 clmCantidad.setVisible(true);
                 clmCantidad.setText("CANTIDAD");
                 combobox.setPromptText("Pagos en linea");
-                TF1.setVisible(true);
                 company=companyDAO.fetchAll(4);
                 for (int i = 0; i < company.size(); i++) {
                     combobox.getItems().add(company.get(i).getName());
@@ -158,7 +157,6 @@ public class ServicioController implements Initializable {
                 clmCantidad.setText("SALIDA");
                 clmOtros.setText("COSTO");
                 clmOtros.setVisible(true);
-                TF1.setVisible(true);
                 TF5.setText("Nombre del Cliente");
                 TF5.setVisible(true);
                 combobox2.setVisible(true);

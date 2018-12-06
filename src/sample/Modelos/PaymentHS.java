@@ -1,13 +1,13 @@
 package sample.Modelos;
 
 public class PaymentHS {
-    int id_paymentHS;
+    String id_paymentHS;
     String pay_date;
     int pay_amount;
     HomeService id_HomeService;
     User id_user;
 
-    public PaymentHS(int id_paymentHS, String pay_date, int pay_amount, HomeService id_HomeService, User id_user) {
+    public PaymentHS(String id_paymentHS, String pay_date, int pay_amount, HomeService id_HomeService, User id_user) {
         this.id_paymentHS = id_paymentHS;
         this.pay_date = pay_date;
         this.pay_amount = pay_amount;
@@ -15,11 +15,11 @@ public class PaymentHS {
         this.id_user = id_user;
     }
 
-    public int getId_paymentHS() {
+    public String getId_paymentHS() {
         return id_paymentHS;
     }
 
-    public void setId_paymentHS(int id_paymentHS) {
+    public void setId_paymentHS(String id_paymentHS) {
         this.id_paymentHS = id_paymentHS;
     }
 

@@ -83,8 +83,8 @@ public class GiftcartcreditDAO {
             rs = st.executeQuery(query);
             if (rs.first()){
                 e = new sample.Modelos.Giftcartcredit(
-                        rs.getInt("id_giftcartcredite"),
-                        rs.getInt("quantity"),
+                        rs.getInt("id_giftcartcredit"),
+                        rs.getInt("credit"),
                         companyDAO.fetch(rs.getInt("id_company"))
                 );
             }

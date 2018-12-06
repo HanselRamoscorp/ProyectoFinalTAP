@@ -82,7 +82,7 @@ public class UserDAO {
         ResultSet rs = null;
         sample.Modelos.User e = null;
         try {
-            String query = "SELECT * FROM user where id = " + trans_id;
+            String query = "SELECT * FROM user where id_user = " + trans_id;
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
             if(rs.first()){

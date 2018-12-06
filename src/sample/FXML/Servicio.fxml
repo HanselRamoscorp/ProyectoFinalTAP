@@ -12,14 +12,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             prefHeight="400.0" prefWidth="600.0">
     <ComboBox fx:id="combobox"    style="-fx-font-size: 20" prefWidth="600" prefHeight="15" AnchorPane.leftAnchor="80" AnchorPane.topAnchor="10"/>
     <ComboBox fx:id="combobox2"    style="-fx-font-size: 20" prefWidth="250" prefHeight="15" AnchorPane.leftAnchor="800" AnchorPane.topAnchor="10"/>
     <ComboBox fx:id="combobox3"    style="-fx-font-size: 20" prefWidth="250" prefHeight="15" AnchorPane.leftAnchor="1100" AnchorPane.topAnchor="10"/>
-     <Button fx:id="acceptarbus" text="Buscar" prefWidth="200" prefHeight="35" AnchorPane.leftAnchor="1600" AnchorPane.topAnchor="10"/>
+     <Button fx:id="acceptarbus" text="Buscar" prefWidth="200" prefHeight="35" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="80"/>
     <TableView fx:id="tabla" style="-fx-font-size: 20" prefWidth="600" prefHeight="550" AnchorPane.leftAnchor="80" AnchorPane.topAnchor="60">
         <columns>
             <TableColumn editable="false" fx:id="clmCantidad" style="-fx-font-size: 20" prefWidth="300"/>

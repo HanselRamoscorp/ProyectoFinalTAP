@@ -32,7 +32,7 @@ public class PaymentHSDAO {
             sample.Modelos.PaymentHS p = null;
             while(rs.next()) {
                 p = new sample.Modelos.PaymentHS(
-                        rs.getInt("id_paymentHS"),
+                        rs.getString("referencesHS"),
                         rs.getString("pay_date"),
                         rs.getInt("pay_amount"),
                         homeServiceDAO.fetch(rs.getInt("id_HomeService")),
@@ -60,7 +60,7 @@ public class PaymentHSDAO {
             sample.Modelos.PaymentHS p = null;
             while(rs.next()) {
                 p = new sample.Modelos.PaymentHS(
-                        rs.getInt("id_paymentHS"),
+                        rs.getString("referencesHS"),
                         rs.getString("pay_date"),
                         rs.getInt("pay_amount"),
                         homeServiceDAO.fetch(rs.getInt("id_HomeService")),
@@ -82,16 +82,18 @@ public class PaymentHSDAO {
         ResultSet rs = null;
         sample.Modelos.PaymentHS e = null;
         try {
-            String query = "SELECT * FROM paymenths where referenceshs = " + referenceshs;
+            String query = "SELECT * FROM paymenths where referencesHS = '"+referenceshs+"'";
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
-            e = new sample.Modelos.PaymentHS(
-                    rs.getInt("id_paymentHS"),
-                    rs.getString("pay_date"),
-                    rs.getInt("pay_amount"),
-                    homeServiceDAO.fetch(rs.getInt("id_HomeService")),
-                    userDAO.fetch(rs.getInt("id_user"))
-            );
+            if (rs.next()){
+                e = new sample.Modelos.PaymentHS(
+                        rs.getString("referencesHS"),
+                        rs.getString("pay_date"),
+                        rs.getInt("pay_amount"),
+                        homeServiceDAO.fetch(rs.getInt("id_HomeService")),
+                        userDAO.fetch(rs.getInt("id_user"))
+                );
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");
@@ -102,7 +104,7 @@ public class PaymentHSDAO {
     public Boolean update(int pago, int cuenta, String referencia) {
         try {
             String query = "update paymentHS "
-                    + " set pay_amount=?, cuenta=?"
+                    + " set pay_amount=?, cuenta=?, pay_date=now()"
                     + " where referencesHS=?";
             System.out.println(query + "updating....");
             PreparedStatement st =  conn.prepareStatement(query);
